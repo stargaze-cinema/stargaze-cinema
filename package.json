@@ -1,0 +1,55 @@
+{
+	"name": "stargaze-cinema-react",
+	"version": "1.0.0",
+	"private": true,
+	"license": "ISC",
+	"author": "Paul Litovka",
+	"description": "Website for a Stargaze Cinema network",
+	"scripts": {
+		"dev": "vite",
+		"build": "npm run typecheck && vite build",
+		"preview": "vite preview",
+		"lint": "eslint ./src --ext js,ts,tsx",
+		"typecheck": "tsc --noEmit -p tsconfig.json"
+	},
+	"engines": {
+		"node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://gitlab.nixdev.co/litovka/stargaze-cinema-react.git"
+	},
+	"bugs": {
+		"url": "https://gitlab.nixdev.co/litovka/stargaze-cinema-react/issues"
+	},
+	"homepage": "https://gitlab.nixdev.co/litovka/stargaze-cinema-react#readme",
+	"keywords": [
+		"react",
+		"vite",
+		"sass",
+		"typescript",
+		"vitejs",
+		"reactjs",
+		"nodejs",
+		"eslint"
+	],
+	"dependencies": {
+		"react": "^17.0.2",
+		"react-router-dom": "^6.2.2",
+		"react-dom": "^17.0.2"
+	},
+	"devDependencies": {
+		"@types/node": "^17.0.21",
+		"@types/react": "^17.0.39",
+		"@types/react-dom": "^17.0.11",
+		"@typescript-eslint/eslint-plugin": "5.13.0",
+		"@typescript-eslint/parser": "^5.13.0",
+		"@vitejs/plugin-react": "^1.2.0",
+		"eslint": "8.10.0",
+		"eslint-plugin-react": "^7.29.2",
+		"eslint-plugin-react-hooks": "^4.3.0",
+		"sass": "^1.49.9",
+		"typescript": "^4.6.2",
+		"vite": "^2.8.5"
+	}
+}
