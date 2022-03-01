@@ -1,14 +1,14 @@
 @use './index' as *;
 
 .layout {
-	@include flex-center;
-	width: 100vw;
-	height: 60px;
-	background: white;
-	box-shadow: $shadow-lighten;
+    @include flex-center;
+    width: 100vw;
+    height: 60px;
+    background: white;
+    box-shadow: $shadow-lighten;
 
-	a {
-		font-weight: 500;
-		color: $accent-header;
-	}
+    a {
+        font-weight: 500;
+        color: $accent-header;
+    }
 }

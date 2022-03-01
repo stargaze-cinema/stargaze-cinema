@@ -9,19 +9,19 @@ import Layout from './components/Layout'
 import './styles/index.css'
 
 render(
-	<StrictMode>
-		<BrowserRouter>
-			<Routes>
-				<Route path="/" element={<Layout />}>
-					<Route index element={<HomePage />} />
-					<Route path="movies">
-						<Route index element={<MoviesPage />} />
-						<Route path=":movie" element={<MoviePage />} />
-					</Route>
-				</Route>
-				<Route path="*" element={<ErrorPage />} />
-			</Routes>
-		</BrowserRouter>
-	</StrictMode>,
-	document.getElementById('root')
+    <StrictMode>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<HomePage />} />
+                    <Route path="movies">
+                        <Route index element={<MoviesPage />} />
+                        <Route path=":movie" element={<MoviePage />} />
+                    </Route>
+                </Route>
+                <Route path="*" element={<ErrorPage />} />
+            </Routes>
+        </BrowserRouter>
+    </StrictMode>,
+    document.getElementById('root')
 )
