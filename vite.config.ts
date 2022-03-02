@@ -18,4 +18,6 @@ export default defineConfig({
         strictPort: true,
         open: true,
     },
+    envDir: './',
+    envPrefix: 'APP_',
 })
