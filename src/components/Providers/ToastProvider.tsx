@@ -26,7 +26,7 @@ interface Props {
     children: ReactNode
 }
 
-const UserProvider = ({ children }: Props) => {
+const ToastProvider = ({ children }: Props) => {
     const [rendered, setRendered] = useState(false)
     const [title, setTitle] = useState('')
     const [icon, setIcon] = useState<any>(null)
@@ -110,4 +110,4 @@ const UserProvider = ({ children }: Props) => {
     )
 }
 
-export default UserProvider
+export default ToastProvider

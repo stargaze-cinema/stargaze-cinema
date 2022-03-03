@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { lazy, Suspense, useState } from 'react'
 import { useToast } from '@/components/Providers/ToastProvider'
 import { Edit, Cross } from '@/assets/icons/Misc'
 import type { Movie } from '@/types/Movie'
@@ -27,6 +28,10 @@ export const MoviesTableHead = () => {
 
 export const MoviesTableRow = ({ movie }: MovieProps) => {
     const { toastPromise } = useToast()
+    const [Modal, setModal] = useState<any>()
+
+    const handleModalChange = () =>
+        setModal(lazy(() => import('../../components/Modals/UpdateMovieModal')))
 
     const remove = () => {
         toastPromise({
@@ -66,13 +71,16 @@ export const MoviesTableRow = ({ movie }: MovieProps) => {
                 <span>{movie.producer.name}</span>
             </div>
             <div className={style.tableCell}>
-                <button>
+                <button onClick={handleModalChange}>
                     <Edit height={14} />
                 </button>
                 <button onClick={remove}>
                     <Cross height={14} />
                 </button>
             </div>
+            <Suspense fallback={null}>
+                {Modal && <Modal movie={movie} onClose={() => setModal(null)} />}
+            </Suspense>
         </>
     )
 }

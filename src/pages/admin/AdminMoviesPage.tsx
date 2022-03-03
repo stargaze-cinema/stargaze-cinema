@@ -2,7 +2,7 @@ import { lazy, Suspense, useState } from 'react'
 import useAxios from '@/hooks/useAxios'
 import type { Movie } from '@/types/Movie'
 import { MoviesTableHead, MoviesTableRow } from '@/components/Table/MoviesTable'
-import MoviePlaceholder from '@/components/Table/MoviePlaceholder'
+import TablePlaceholder from '@/components/Table/TablePlaceholder'
 import CreateRecord from '@/components/Buttons/CreateRecord'
 import style from '@/styles/admin.module.scss'
 
@@ -27,7 +27,7 @@ const AdminMoviesPage = () => {
             <div className={style.table}>
                 <MoviesTableHead />
                 {loading ? (
-                    <MoviePlaceholder />
+                    <TablePlaceholder cols={10} rows={10} />
                 ) : (
                     data?.map(movie => <MoviesTableRow key={movie.id} movie={movie} />)
                 )}

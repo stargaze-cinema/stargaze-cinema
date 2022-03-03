@@ -1,34 +1,46 @@
 import { useState } from 'react'
 import axios from 'axios'
-import type { ChangeEvent, FormEvent } from 'react'
 import { useToast } from '@/components/Providers/ToastProvider'
+import type { ChangeEvent, FormEvent } from 'react'
+import type { Movie } from '@/types/Movie'
 import Modal from './Modal'
 import style from '@/styles/modal.module.scss'
 
 interface Props {
+    movie: Movie
     onClose: () => void
 }
 
-const CreateMovieModal = ({ onClose }: Props) => {
+const UpdateMovieModal = ({ movie, onClose }: Props) => {
     const { toastPromise } = useToast()
     const [state, setState] = useState({
-        title: '',
-        description: '',
-        price: 0,
-        year: 0,
-        duration: 0,
-        category: '',
-        producer: '',
+        title: movie.title,
+        description: movie.description,
+        price: movie.price,
+        year: movie.year,
+        duration: movie.duration,
+        category: movie.category.name,
+        producer: movie.producer.name,
     })
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
+        const data = JSON.parse(JSON.stringify(state))
+        for (const key in data) {
+            // @ts-ignore
+            if (state[key] === movie[key]) {
+                delete data[key]
+                continue
+            }
+            if ((key === 'category' || key === 'producer') && state[key] === movie[key].name)
+                delete data[key]
+        }
         toastPromise({
-            promise: axios.post('/movies', {
-                ...state,
-                price: parseFloat(state.price.toFixed(2)),
+            promise: axios.patch(`/movies/${movie.id}`, {
+                ...data,
+                price: parseFloat(data.price.toFixed(2)),
             }),
-            title: 'Creating movie...',
+            title: 'Updating...',
             onSuccess: () => {
                 onClose()
                 location.reload()
@@ -57,7 +69,7 @@ const CreateMovieModal = ({ onClose }: Props) => {
     }
 
     return (
-        <Modal title="Create movie" isOpen={true} onClose={onClose}>
+        <Modal title="Edit movie" isOpen={true} onClose={onClose}>
             <div className={style.createModal}>
                 <form onSubmit={handleSubmit}>
                     <label className={style.createLabel}>
@@ -164,11 +176,11 @@ const CreateMovieModal = ({ onClose }: Props) => {
                             />
                         </div>
                     </div>
-                    <input className={style.createSubmit} type="submit" value="Create movie" />
+                    <input className={style.createSubmit} type="submit" value="Apply changes" />
                 </form>
             </div>
         </Modal>
     )
 }
 
-export default CreateMovieModal
+export default UpdateMovieModal
