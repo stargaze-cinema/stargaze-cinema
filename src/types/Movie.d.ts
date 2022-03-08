@@ -1,13 +1,13 @@
 export type Movie = {
-    category: { id: number; name: string }
-    created_at: string
-    description: string
-    duration: number
     id: number
-    poster?: string
-    price: number
-    producer: { id: number; name: string }
     title: string
-    updated_at: string
+    description?: string
+    poster?: string
+    duration: number
     year: number
+    price: number
+    category: { id: number; name: string }
+    producer: { id: number; name: string }
+    created_at: string
+    updated_at: string
 }

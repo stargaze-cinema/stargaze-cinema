@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { lazy, Suspense, useState } from 'react'
-import { useToast } from '@/components/Providers/ToastProvider'
+import { useToast } from '@/providers/ToastProvider'
+import { useAuth } from '@/providers/AuthProvider'
 import { Edit, Cross } from '@/assets/icons/Misc'
 import type { Movie } from '@/types/Movie'
 import style from '@/styles/admin.module.scss'
@@ -27,6 +28,7 @@ export const MoviesTableHead = () => {
 }
 
 export const MoviesTableRow = ({ movie }: MovieProps) => {
+    const { user } = useAuth()
     const { toastPromise } = useToast()
     const [Modal, setModal] = useState<any>()
 
@@ -35,7 +37,9 @@ export const MoviesTableRow = ({ movie }: MovieProps) => {
 
     const remove = () => {
         toastPromise({
-            promise: axios.delete(`/movies/${movie.id}`),
+            promise: axios.delete(`/movies/${movie.id}`, {
+                headers: { Authorization: user?.token as string },
+            }),
             title: 'Deleting movie...',
             onSuccess: () => location.reload(),
         })

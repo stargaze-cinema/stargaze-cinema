@@ -1,18 +1,17 @@
 import { useState, createContext, useContext, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import type { ReactNode } from 'react'
 import type { AxiosError, AxiosResponse } from 'axios'
 import { Loading, Success, Warning } from '@/assets/icons/Misc'
 import style from '@/styles/toast.module.scss'
 
-const ProviderContext = createContext({})
-export const useToast = () => useContext(ProviderContext) as Toast
+const ProviderContext = createContext<Toast>(null!)
+export const useToast = () => useContext(ProviderContext)
 
 interface ToastPromise {
     promise: Promise<AxiosResponse<any, any>>
     title?: string
-    onSuccess?: () => void
-    onError?: () => void
+    onSuccess?: (res: AxiosResponse) => void
+    onError?: (err: AxiosError) => void
 }
 
 interface Toast {
@@ -22,11 +21,7 @@ interface Toast {
     toastClear: () => void
 }
 
-interface Props {
-    children: ReactNode
-}
-
-const ToastProvider = ({ children }: Props) => {
+const ToastProvider = ({ children }: { children: JSX.Element }) => {
     const [rendered, setRendered] = useState(false)
     const [title, setTitle] = useState('')
     const [icon, setIcon] = useState<any>(null)
@@ -41,13 +36,14 @@ const ToastProvider = ({ children }: Props) => {
                 setIcon(<Success />)
                 setTitle(res.data.message ? res.data.message : 'Success')
                 setTimeout(toastClear, 5000)
-                onSuccess && onSuccess()
+                onSuccess && onSuccess(res)
             })
             .catch((err: AxiosError) => {
-                const msg = Array.isArray(err.response?.data)
+                const responseMsg = err.response?.data.message
+                const msg = Array.isArray(responseMsg)
                     ? () => {
                           let mergedMsg = ''
-                          err.response?.data.forEach((object: any) => {
+                          responseMsg.forEach((object: any) => {
                               for (const key in object) {
                                   const value = object[key]
                                   mergedMsg = `${mergedMsg}\n${key}:${value}`
@@ -55,11 +51,11 @@ const ToastProvider = ({ children }: Props) => {
                           })
                           return mergedMsg.trim()
                       }
-                    : err.response?.data.message
+                    : responseMsg
                 setIcon(<Warning />)
                 setTitle(msg)
                 setTimeout(toastClear, 5000)
-                onError && onError()
+                onError && onError(err)
             })
     }
 

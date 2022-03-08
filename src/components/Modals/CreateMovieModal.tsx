@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import axios from 'axios'
 import type { ChangeEvent, FormEvent } from 'react'
-import { useToast } from '@/components/Providers/ToastProvider'
+import { useToast } from '@/providers/ToastProvider'
+import { useAuth } from '@/providers/AuthProvider'
 import Modal from './Modal'
 import style from '@/styles/modal.module.scss'
 
@@ -11,6 +12,7 @@ interface Props {
 
 const CreateMovieModal = ({ onClose }: Props) => {
     const { toastPromise } = useToast()
+    const { user } = useAuth()
     const [state, setState] = useState({
         title: '',
         description: '',
@@ -21,38 +23,35 @@ const CreateMovieModal = ({ onClose }: Props) => {
         producer: '',
     })
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleChange = ({
+        target,
+    }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        let value
+        switch (target.name) {
+            case 'price':
+            case 'year':
+            case 'duration':
+                value = +target.value
+                break
+            default:
+                value = target.value
+        }
+        setState({
+            ...state,
+            [target.name]: value,
+        })
+    }
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         toastPromise({
-            promise: axios.post('/movies', {
-                ...state,
-                price: parseFloat(state.price.toFixed(2)),
+            promise: axios.post('/movies', state, {
+                headers: { Authorization: user?.token as string },
             }),
             title: 'Creating movie...',
             onSuccess: () => {
                 onClose()
-                location.reload()
             },
-        })
-    }
-
-    const handleChange = (e: ChangeEvent) => {
-        const el = e.target as HTMLInputElement
-        let value
-        switch (el.name) {
-            case 'price':
-                value = parseFloat(el.value)
-                break
-            case 'year':
-            case 'duration':
-                value = +el.value
-                break
-            default:
-                value = el.value
-        }
-        setState({
-            ...state,
-            [el.name]: value,
         })
     }
 

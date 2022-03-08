@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
-import { useToast } from '@/components/Providers/ToastProvider'
+import { useToast } from '@/providers/ToastProvider'
+import { useAuth } from '@/providers/AuthProvider'
 import type { ChangeEvent, FormEvent } from 'react'
 import type { Movie } from '@/types/Movie'
 import Modal from './Modal'
@@ -13,6 +14,7 @@ interface Props {
 
 const UpdateMovieModal = ({ movie, onClose }: Props) => {
     const { toastPromise } = useToast()
+    const { user } = useAuth()
     const [state, setState] = useState({
         title: movie.title,
         description: movie.description,
@@ -23,7 +25,26 @@ const UpdateMovieModal = ({ movie, onClose }: Props) => {
         producer: movie.producer.name,
     })
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleChange = ({
+        target,
+    }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        let value
+        switch (target.name) {
+            case 'price':
+            case 'year':
+            case 'duration':
+                value = +target.value
+                break
+            default:
+                value = target.value
+        }
+        setState({
+            ...state,
+            [target.name]: value,
+        })
+    }
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const data = JSON.parse(JSON.stringify(state))
         for (const key in data) {
@@ -36,35 +57,14 @@ const UpdateMovieModal = ({ movie, onClose }: Props) => {
                 delete data[key]
         }
         toastPromise({
-            promise: axios.patch(`/movies/${movie.id}`, {
-                ...data,
-                price: parseFloat(data.price.toFixed(2)),
+            promise: axios.patch(`/movies/${movie.id}`, state, {
+                headers: { Authorization: user?.token as string },
             }),
             title: 'Updating...',
             onSuccess: () => {
                 onClose()
                 location.reload()
             },
-        })
-    }
-
-    const handleChange = (e: ChangeEvent) => {
-        const el = e.target as HTMLInputElement
-        let value
-        switch (el.name) {
-            case 'price':
-                value = parseFloat(el.value)
-                break
-            case 'year':
-            case 'duration':
-                value = +el.value
-                break
-            default:
-                value = el.value
-        }
-        setState({
-            ...state,
-            [el.name]: value,
         })
     }
 

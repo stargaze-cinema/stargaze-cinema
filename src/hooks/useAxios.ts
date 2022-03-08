@@ -1,26 +1,31 @@
 import { useState, useEffect } from 'react'
-import axios, { AxiosResponse, AxiosError } from 'axios'
+import axios, { AxiosResponse, AxiosError, AxiosRequestHeaders } from 'axios'
 
-axios.defaults.baseURL = import.meta.env.APP_API_URL
-axios.defaults.headers.get['Accept'] = 'application/json'
-axios.defaults.headers.post['Accept'] = 'application/json'
-axios.defaults.headers.post['Content-Type'] = 'application/json'
-axios.defaults.headers.patch['Accept'] = 'application/json'
-axios.defaults.headers.patch['Content-Type'] = 'application/json'
+interface UseAxios {
+    (config: {
+        url: string
+        data?: object
+        method?: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE'
+        headers?: AxiosRequestHeaders
+    }): {
+        data: any
+        loading: boolean
+        error: string
+    }
+}
 
-const useAxios = (url: string, timeout?: number) => {
-    const [data, setData] = useState<any>(null)
+const useAxios: UseAxios = config => {
+    const [data, setData] = useState<object>({})
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         let unmounted = false
         const source = axios.CancelToken.source()
-        axios
-            .get(url, {
-                cancelToken: source.token,
-                timeout: timeout,
-            })
+        axios({
+            ...config,
+            cancelToken: source.token,
+        })
             .then((res: AxiosResponse) => {
                 if (!unmounted) {
                     setData(res.data)
@@ -42,7 +47,7 @@ const useAxios = (url: string, timeout?: number) => {
             unmounted = true
             source.cancel('Cancelling in cleanup')
         }
-    }, [url, timeout])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     return { data, loading, error }
 }

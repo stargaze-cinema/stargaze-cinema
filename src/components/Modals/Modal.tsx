@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import type { ReactNode } from 'react'
 import { Cross } from '@/assets/icons/Misc'
 import style from '@/styles/modal.module.scss'
 
 interface Props {
     title: string
     isOpen: boolean
-    children: ReactNode
+    children: JSX.Element
     onClose: () => void
 }
 
