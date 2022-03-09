@@ -1,5 +1,3 @@
-const MoviesPage = () => {
+export const MoviesPage: React.FC = () => {
     return <div>Movies</div>
 }
-
-export default MoviesPage

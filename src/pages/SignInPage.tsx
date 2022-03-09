@@ -1,20 +1,21 @@
 import axios from 'axios'
+import type { User } from '@/types/User'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useToast } from '@/providers/ToastProvider'
 import { useAuth } from '@/providers/AuthProvider'
-import type { ChangeEvent, FormEvent } from 'react'
-import type { User } from '@/types/User'
-import style from '@/styles/auth.module.scss'
+import { LabeledInput } from '@/components/Inputs/LabeledInput'
+import { InputSubmit } from '@/components/Inputs/InputSubmit'
+import style from '@/assets/styles/auth.module.scss'
 
-const SignInPage = () => {
+export const SignInPage: React.FC = () => {
     const { signIn } = useAuth()
     const navigate = useNavigate()
     const { toastPromise } = useToast()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const handleChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
         switch (target.name) {
             case 'email':
                 setEmail(target.value)
@@ -25,7 +26,7 @@ const SignInPage = () => {
         }
     }
 
-    const handleSumbit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSumbit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         toastPromise({
             promise: axios.post('/auth/signin', { email, password }),
@@ -40,27 +41,21 @@ const SignInPage = () => {
     return (
         <div className={style.authPage}>
             <form onSubmit={handleSumbit}>
-                <label>
-                    Your email
-                    <input
-                        type="email"
-                        name="email"
-                        value={email}
-                        onChange={handleChange}
-                        required
-                    />
-                </label>
-                <label>
-                    Your password
-                    <input
-                        type="password"
-                        name="password"
-                        value={password}
-                        onChange={handleChange}
-                        required
-                    />
-                </label>
-                <input type="submit" value="Sign in" />
+                <LabeledInput
+                    label="Your email"
+                    type="email"
+                    name="email"
+                    value={email}
+                    onChange={handleChange}
+                />
+                <LabeledInput
+                    label="Your password"
+                    type="password"
+                    name="password"
+                    value={password}
+                    onChange={handleChange}
+                />
+                <InputSubmit label="Sign in" />
                 <span>
                     Not a member yet? <Link to="/signup">Sign up!</Link>
                 </span>
@@ -68,5 +63,3 @@ const SignInPage = () => {
         </div>
     )
 }
-
-export default SignInPage

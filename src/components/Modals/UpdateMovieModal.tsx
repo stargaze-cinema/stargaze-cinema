@@ -2,17 +2,19 @@ import { useState } from 'react'
 import axios from 'axios'
 import { useToast } from '@/providers/ToastProvider'
 import { useAuth } from '@/providers/AuthProvider'
-import type { ChangeEvent, FormEvent } from 'react'
 import type { Movie } from '@/types/Movie'
-import Modal from './Modal'
-import style from '@/styles/modal.module.scss'
+import { LabeledInput } from '../Inputs/LabeledInput'
+import { LabeledTextarea } from '../Inputs/LabeledTextarea'
+import { Modal } from './Modal'
+import style from '@/assets/styles/modal.module.scss'
+import { InputSubmit } from '../Inputs/InputSubmit'
 
 interface Props {
     movie: Movie
     onClose: () => void
 }
 
-const UpdateMovieModal = ({ movie, onClose }: Props) => {
+export const UpdateMovieModal: React.FC<Props> = ({ movie, onClose }) => {
     const { toastPromise } = useToast()
     const { user } = useAuth()
     const [state, setState] = useState({
@@ -27,7 +29,7 @@ const UpdateMovieModal = ({ movie, onClose }: Props) => {
 
     const handleChange = ({
         target,
-    }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         let value
         switch (target.name) {
             case 'price':
@@ -44,7 +46,7 @@ const UpdateMovieModal = ({ movie, onClose }: Props) => {
         })
     }
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const data = JSON.parse(JSON.stringify(state))
         for (const key in data) {
@@ -72,65 +74,47 @@ const UpdateMovieModal = ({ movie, onClose }: Props) => {
         <Modal title="Edit movie" isOpen={true} onClose={onClose}>
             <div className={style.createModal}>
                 <form onSubmit={handleSubmit}>
-                    <label className={style.createLabel}>
-                        Title
-                        <input
-                            type="text"
-                            className={style.createInput}
-                            name="title"
-                            value={state.title}
-                            onChange={handleChange}
-                            required
-                        />
-                    </label>
-                    <label className={style.createLabel}>
-                        Description
-                        <textarea
-                            className={style.createTextarea}
-                            name="description"
-                            value={state.description}
-                            onChange={handleChange}
-                        ></textarea>
-                    </label>
-                    <label className={style.createLabel}>
-                        Duration (in minutes)
-                        <input
-                            type="number"
-                            className={style.createInput}
-                            name="duration"
-                            value={state.duration}
-                            onChange={handleChange}
-                            required
-                        />
-                    </label>
-                    <label className={style.createLabel}>
-                        Price
-                        <input
-                            type="number"
-                            className={style.createInput}
-                            name="price"
-                            value={state.price}
-                            onChange={handleChange}
-                            placeholder="20.00"
-                            min="0"
-                            max="99.99"
-                            step="0.01"
-                            required
-                        />
-                    </label>
-                    <label className={style.createLabel}>
-                        Year
-                        <input
-                            type="number"
-                            className={style.createInput}
-                            name="year"
-                            value={state.year}
-                            onChange={handleChange}
-                            placeholder="2022"
-                            min="1888"
-                            required
-                        />
-                    </label>
+                    <LabeledInput
+                        label="Title"
+                        name="title"
+                        value={state.title}
+                        onChange={handleChange}
+                        required
+                    />
+                    <LabeledTextarea
+                        label="Description"
+                        name="description"
+                        value={state.description}
+                        onChange={handleChange}
+                    />
+                    <LabeledInput
+                        label="Duration (in minutes)"
+                        type="number"
+                        name="duration"
+                        value={state.duration}
+                        onChange={handleChange}
+                        required
+                    />
+                    <LabeledInput
+                        label="Price"
+                        type="number"
+                        name="price"
+                        value={state.price}
+                        onChange={handleChange}
+                        min={0}
+                        max={99.99}
+                        step={0.01}
+                        required
+                    />
+                    <LabeledInput
+                        label="Year"
+                        type="number"
+                        name="year"
+                        value={state.year}
+                        onChange={handleChange}
+                        min={1888}
+                        required
+                    />
                     <label className={style.createLabel}>
                         Category
                         <select
@@ -176,11 +160,9 @@ const UpdateMovieModal = ({ movie, onClose }: Props) => {
                             />
                         </div>
                     </div>
-                    <input className={style.createSubmit} type="submit" value="Apply changes" />
+                    <InputSubmit label="Apply changes" />
                 </form>
             </div>
         </Modal>
     )
 }
-
-export default UpdateMovieModal

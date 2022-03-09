@@ -1,9 +1,9 @@
 import { Link, Outlet } from 'react-router-dom'
-import style from '@/styles/layout.module.scss'
+import style from '@/assets/styles/layout.module.scss'
 import { Logo } from '@/assets/icons/Brand'
 import { useAuth } from '@/providers/AuthProvider'
 
-const Layout = () => {
+export const Layout: React.FC = () => {
     const { user } = useAuth()
     return (
         <>
@@ -18,5 +18,3 @@ const Layout = () => {
         </>
     )
 }
-
-export default Layout

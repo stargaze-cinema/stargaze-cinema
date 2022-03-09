@@ -2,10 +2,11 @@ import axios from 'axios'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useToast } from '@/providers/ToastProvider'
-import type { ChangeEvent, FormEvent } from 'react'
-import style from '@/styles/auth.module.scss'
+import { LabeledInput } from '@/components/Inputs/LabeledInput'
+import { InputSubmit } from '@/components/Inputs/InputSubmit'
+import style from '@/assets/styles/auth.module.scss'
 
-const SignUpPage = () => {
+export const SignUpPage: React.FC = () => {
     const navigate = useNavigate()
     const { toastPromise } = useToast()
     const [state, setState] = useState({
@@ -15,13 +16,13 @@ const SignUpPage = () => {
         password_confirmation: '',
     })
 
-    const handleChange = ({ target }: ChangeEvent<HTMLInputElement>) =>
+    const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) =>
         setState({
             ...state,
             [target.name]: target.value,
         })
 
-    const handleSumbit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSumbit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         toastPromise({
             promise: axios.post('/auth/signup', state),
@@ -35,48 +36,38 @@ const SignUpPage = () => {
     return (
         <div className={style.authPage}>
             <form onSubmit={handleSumbit}>
-                <label>
-                    Your name
-                    <input
-                        type="text"
-                        name="name"
-                        value={state.name}
-                        onChange={handleChange}
-                        required
-                    />
-                </label>
-                <label>
-                    Your email
-                    <input
-                        type="email"
-                        name="email"
-                        value={state.email}
-                        onChange={handleChange}
-                        required
-                    />
-                </label>
-                <label>
-                    Your password
-                    <input
-                        type="password"
-                        name="password"
-                        value={state.password}
-                        onChange={handleChange}
-                        required
-                    />
-                </label>
-
-                <label>
-                    Confirm your password
-                    <input
-                        type="password"
-                        name="password_confirmation"
-                        value={state.password_confirmation}
-                        onChange={handleChange}
-                        required
-                    />
-                </label>
-                <input type="submit" value="Sign up" />
+                <LabeledInput
+                    label="Your name"
+                    name="name"
+                    value={state.name}
+                    onChange={handleChange}
+                    required
+                />
+                <LabeledInput
+                    label="Your email"
+                    type="email"
+                    name="email"
+                    value={state.email}
+                    onChange={handleChange}
+                    required
+                />
+                <LabeledInput
+                    label="Your password"
+                    type="password"
+                    name="password"
+                    value={state.password}
+                    onChange={handleChange}
+                    required
+                />
+                <LabeledInput
+                    label="Confirm your password"
+                    type="password"
+                    name="password_confirmation"
+                    value={state.password_confirmation}
+                    onChange={handleChange}
+                    required
+                />
+                <InputSubmit label="Sign up" />
                 <span>
                     Already a member? <Link to="/signin">Sign in!</Link>
                 </span>
@@ -84,5 +75,3 @@ const SignUpPage = () => {
         </div>
     )
 }
-
-export default SignUpPage

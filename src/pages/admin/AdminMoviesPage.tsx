@@ -1,32 +1,30 @@
-import { lazy, Suspense, useState } from 'react'
 import useAxios from '@/hooks/useAxios'
 import { useAuth } from '@/providers/AuthProvider'
+import { useModal } from '@/providers/ModalProvider'
+import { MoviesTableRow } from '@/components/Table/MoviesTable'
+import { MoviesTableHead } from '@/components/Table/MoviesTableHead'
+import { TablePlaceholder } from '@/components/Table/TablePlaceholder'
+import { CreateRecordBtn } from '@/components/Buttons/CreateRecordBtn'
 import type { Movie } from '@/types/Movie'
-import { MoviesTableHead, MoviesTableRow } from '@/components/Table/MoviesTable'
-import TablePlaceholder from '@/components/Table/TablePlaceholder'
-import CreateRecord from '@/components/Buttons/CreateRecord'
-import style from '@/styles/admin.module.scss'
+import style from '@/assets/styles/admin.module.scss'
 
 interface AxiosResponse {
     data: Movie[]
     loading: boolean
 }
 
-const AdminMoviesPage = () => {
-    const [Modal, setModal] = useState<any>()
+export const AdminMoviesPage: React.FC = () => {
     const { user } = useAuth()
+    const { showModal } = useModal()
     const { data, loading }: AxiosResponse = useAxios({
         url: '/movies',
         headers: { Authorization: user?.token as string },
     })
 
-    const handleModalChange = () =>
-        setModal(lazy(() => import('../../components/Modals/CreateMovieModal')))
-
     return (
         <div className={style.tablePage}>
             <div className={style.tableBtns}>
-                <CreateRecord onClick={handleModalChange} />
+                <CreateRecordBtn onClick={() => showModal('CreateMovieModal')} />
             </div>
             <div className={style.table}>
                 <MoviesTableHead />
@@ -36,9 +34,6 @@ const AdminMoviesPage = () => {
                     data?.map(movie => <MoviesTableRow key={movie.id} movie={movie} />)
                 )}
             </div>
-            <Suspense fallback={null}>{Modal && <Modal onClose={() => setModal(null)} />}</Suspense>
         </div>
     )
 }
-
-export default AdminMoviesPage

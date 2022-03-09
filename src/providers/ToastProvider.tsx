@@ -2,7 +2,7 @@ import { useState, createContext, useContext, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import type { AxiosError, AxiosResponse } from 'axios'
 import { Loading, Success, Warning } from '@/assets/icons/Misc'
-import style from '@/styles/toast.module.scss'
+import style from '@/assets/styles/toast.module.scss'
 
 const ProviderContext = createContext<Toast>(null!)
 export const useToast = () => useContext(ProviderContext)
@@ -21,7 +21,7 @@ interface Toast {
     toastClear: () => void
 }
 
-const ToastProvider = ({ children }: { children: JSX.Element }) => {
+export const ToastProvider: React.FC = ({ children }) => {
     const [rendered, setRendered] = useState(false)
     const [title, setTitle] = useState('')
     const [icon, setIcon] = useState<any>(null)
@@ -105,5 +105,3 @@ const ToastProvider = ({ children }: { children: JSX.Element }) => {
         </>
     )
 }
-
-export default ToastProvider

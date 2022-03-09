@@ -1,7 +1,7 @@
 import { useState, createContext, useContext } from 'react'
 import { Navigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
-import { User } from '@/types/User'
+import type { User } from '@/types/User'
 
 const AuthContext = createContext<AuthContextType>(null!)
 export const useAuth = () => useContext(AuthContext)
@@ -27,7 +27,7 @@ interface SignOut {
     (): void
 }
 
-const AuthProvider = ({ children }: { children: JSX.Element }) => {
+export const AuthProvider: React.FC = ({ children }) => {
     const [user, setUser] = useState<CookieUser | null>(
         Cookies.get('user') && JSON.parse(Cookies.get('user') as string)
     )
@@ -64,24 +64,22 @@ const AuthProvider = ({ children }: { children: JSX.Element }) => {
     )
 }
 
-export const RequireAuth = ({ children }: { children: JSX.Element }) => {
+export const RequireAuth: React.FC = ({ children }) => {
     const cookie = Cookies.get('user')
 
     if (!cookie) {
         return <Navigate to="/signin" replace />
     }
 
-    return children
+    return <>{children}</>
 }
 
-export const RequireAnon = ({ children }: { children: JSX.Element }) => {
+export const RequireAnon: React.FC = ({ children }) => {
     const cookie = Cookies.get('user')
 
     if (cookie) {
         return <Navigate to="/account" replace />
     }
 
-    return children
+    return <>{children}</>
 }
-
-export default AuthProvider

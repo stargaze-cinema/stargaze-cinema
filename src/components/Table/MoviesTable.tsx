@@ -1,39 +1,15 @@
 import axios from 'axios'
-import { lazy, Suspense, useState } from 'react'
+import type { Movie } from '@/types/Movie'
+import { useModal } from '@/providers/ModalProvider'
 import { useToast } from '@/providers/ToastProvider'
 import { useAuth } from '@/providers/AuthProvider'
 import { Edit, Cross } from '@/assets/icons/Misc'
-import type { Movie } from '@/types/Movie'
-import style from '@/styles/admin.module.scss'
+import style from '@/assets/styles/admin.module.scss'
 
-interface MovieProps {
-    movie: Movie
-}
-
-export const MoviesTableHead = () => {
-    return (
-        <>
-            <span className={style.tableHead}>ID</span>
-            <span className={style.tableHead}>Title</span>
-            <span className={style.tableHead}>Description</span>
-            <span className={style.tableHead}>Poster</span>
-            <span className={style.tableHead}>Price</span>
-            <span className={style.tableHead}>Year</span>
-            <span className={style.tableHead}>Duration</span>
-            <span className={style.tableHead}>Category</span>
-            <span className={style.tableHead}>Producer</span>
-            <span className={style.tableHead}>Actions</span>
-        </>
-    )
-}
-
-export const MoviesTableRow = ({ movie }: MovieProps) => {
+export const MoviesTableRow: React.FC<{ movie: Movie }> = ({ movie }) => {
     const { user } = useAuth()
+    const { showModal } = useModal()
     const { toastPromise } = useToast()
-    const [Modal, setModal] = useState<any>()
-
-    const handleModalChange = () =>
-        setModal(lazy(() => import('../../components/Modals/UpdateMovieModal')))
 
     const remove = () => {
         toastPromise({
@@ -75,16 +51,13 @@ export const MoviesTableRow = ({ movie }: MovieProps) => {
                 <span>{movie.producer.name}</span>
             </div>
             <div className={style.tableCell}>
-                <button onClick={handleModalChange}>
+                <button onClick={() => showModal('UpdateMovieModal', { movie })}>
                     <Edit height={14} />
                 </button>
                 <button onClick={remove}>
                     <Cross height={14} />
                 </button>
             </div>
-            <Suspense fallback={null}>
-                {Modal && <Modal movie={movie} onClose={() => setModal(null)} />}
-            </Suspense>
         </>
     )
 }

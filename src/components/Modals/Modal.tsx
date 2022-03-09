@@ -1,16 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Cross } from '@/assets/icons/Misc'
-import style from '@/styles/modal.module.scss'
+import style from '@/assets/styles/modal.module.scss'
 
 interface Props {
     title: string
     isOpen: boolean
-    children: JSX.Element
     onClose: () => void
 }
 
-const Modal = ({ title, isOpen, children, onClose }: Props) => {
+export const Modal: React.FC<Props> = ({ title, isOpen, children, onClose }) => {
     const [rendered, setRendered] = useState(isOpen)
     const containerRef = useRef<HTMLDivElement>(null)
     const contentRef = useRef<HTMLDivElement>(null)
@@ -48,9 +47,5 @@ const Modal = ({ title, isOpen, children, onClose }: Props) => {
 Modal.defaultProps = {
     title: 'Modal',
     isOpen: false,
-    children: null,
-    Footer: null,
     onClose: () => console.warn('No action on modal close'),
 }
-
-export default Modal

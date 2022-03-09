@@ -1,4 +1,4 @@
-@import url('../assets/fonts/Proxima/index.css');
+@import url('../fonts/Proxima/index.css');
 
 *,
 *::before,
@@ -37,7 +37,6 @@ input:enabled,
 select:enabled,
 textarea:enabled {
     outline: none;
-    border: none;
 }
 
 input[type='number']::-webkit-inner-spin-button,

@@ -69,63 +69,21 @@
                     background: $white-2;
                     .createLabel {
                         @include flex-column;
-                        font-size: medium;
-                        margin-top: 14px;
                         width: 100%;
-                        height: fit-content;
-                        .createInput {
-                            width: 100%;
-                            height: 40px;
-                            border: 1px solid $dark-8;
-                            border-radius: 6px;
-                            padding: 0 8px;
-                            font-size: inherit;
-                            background: $white-1;
-                            @include transition;
-                            &:focus {
-                                border-color: $brand-blue;
-                            }
-                        }
-                        .createTextarea {
-                            resize: vertical;
-                            width: 100%;
-                            height: 200px;
-                            border: 1px solid $dark-8;
-                            border-radius: 6px;
-                            padding: 8px;
-                            font-size: inherit;
-                            background: $white-1;
-                            @include transition;
-                            &:focus {
-                                border-color: $brand-blue;
-                            }
-                        }
+                        font-size: medium;
+                        margin-top: 6px;
+                        margin-bottom: 10px;
                         .createSelect {
                             width: fit-content;
                             border: 1px solid $dark-8;
                             font-size: inherit;
                             border-radius: 4px;
+                            margin-top: 4px;
                             padding: 4px;
                             background: $white-1;
                             &:focus {
                                 border-color: $brand-blue;
                             }
-                        }
-                    }
-                    .createSubmit {
-                        width: 100%;
-                        height: 40px;
-                        font-size: inherit;
-                        font-weight: 600;
-                        letter-spacing: 0.7px;
-                        background: $brand-blue;
-                        color: white;
-                        border-radius: 6px;
-                        margin: 16px 0 20px 0;
-                        cursor: pointer;
-                        @include transition;
-                        &:hover {
-                            background: darken($brand-blue, 5%);
                         }
                     }
                     .createDateTimeBox {

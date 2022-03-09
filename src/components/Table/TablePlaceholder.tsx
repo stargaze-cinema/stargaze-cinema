@@ -1,11 +1,11 @@
-import style from '@/styles/admin.module.scss'
+import style from '@/assets/styles/admin.module.scss'
 
-type Props = {
+interface Props {
     cols: number
     rows: number
 }
 
-const TablePlaceholder = ({ cols, rows }: Props) => {
+export const TablePlaceholder: React.FC<Props> = ({ cols, rows }) => {
     const items = []
     let count = 0
     for (let i = 0; i < rows; i++) {
@@ -19,5 +19,3 @@ const TablePlaceholder = ({ cols, rows }: Props) => {
 
     return <>{items}</>
 }
-
-export default TablePlaceholder

@@ -1,8 +1,6 @@
 import { useParams } from 'react-router-dom'
 
-const MoviePage = () => {
+export const MoviePage: React.FC = () => {
     const params = useParams()
     return <div>Movie: {params.movie}</div>
 }
-
-export default MoviePage
