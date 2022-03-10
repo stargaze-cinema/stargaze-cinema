@@ -15,10 +15,11 @@ interface ToastPromise {
 }
 
 interface Toast {
-    toastPromise: (params: ToastPromise) => void
-    toastSuccess: (title?: string) => void
-    toastError: (title?: string) => void
-    toastClear: () => void
+    loading: (title?: string) => void
+    success: (title?: string) => void
+    error: (message?: string) => void
+    promise: (params: ToastPromise) => void
+    clear: () => void
 }
 
 export const ToastProvider: React.FC = ({ children }) => {
@@ -27,7 +28,7 @@ export const ToastProvider: React.FC = ({ children }) => {
     const [icon, setIcon] = useState<any>(null)
     const ref = useRef<HTMLDivElement>(null)
 
-    const toastPromise = ({ promise, title, onSuccess, onError }: ToastPromise) => {
+    const promise = ({ promise, title, onSuccess, onError }: ToastPromise) => {
         setTitle(title ? title : 'Processing...')
         setIcon(<Loading className={style.spinAnimation} />)
         setRendered(true)
@@ -35,7 +36,7 @@ export const ToastProvider: React.FC = ({ children }) => {
             .then((res: AxiosResponse) => {
                 setIcon(<Success />)
                 setTitle(res.data.message ? res.data.message : 'Success')
-                setTimeout(toastClear, 5000)
+                setTimeout(clear, 5000)
                 onSuccess && onSuccess(res)
             })
             .catch((err: AxiosError) => {
@@ -54,26 +55,46 @@ export const ToastProvider: React.FC = ({ children }) => {
                     : responseMsg
                 setIcon(<Warning />)
                 setTitle(msg)
-                setTimeout(toastClear, 5000)
+                setTimeout(clear, 5000)
                 onError && onError(err)
             })
     }
 
-    const toastSuccess = (title?: string) => {
-        title && setTitle(title)
+    const loading = (title?: string) => {
+        title ? setTitle(title) : setTitle('Processing...')
+        setIcon(<Loading className={style.spinAnimation} />)
+        setRendered(true)
+    }
+
+    const success = (title?: string) => {
+        title ? setTitle(title) : setTitle('Success')
         setIcon(<Success />)
         setRendered(true)
-        setTimeout(toastClear, 5000)
+        setTimeout(clear, 5000)
     }
 
-    const toastError = (title?: string) => {
-        title && setTitle(title)
+    const error = (message?: string) => {
+        if (message) {
+            const msg = Array.isArray(message)
+                ? () => {
+                      let mergedMsg = ''
+                      message.forEach((object: any) => {
+                          for (const key in object) {
+                              const value = object[key]
+                              mergedMsg = `${mergedMsg}\n${key}:${value}`
+                          }
+                      })
+                      return mergedMsg.trim()
+                  }
+                : message
+            setTitle(msg)
+        } else setTitle('Something went wrong.')
         setIcon(<Warning />)
         setRendered(true)
-        setTimeout(toastClear, 5000)
+        setTimeout(clear, 5000)
     }
 
-    const toastClear = () => {
+    const clear = () => {
         if (!ref.current) return
         ref.current.className = `${style.toast} ${style.popDownAnimation}`
         ref.current.onanimationend = () => setRendered(false)
@@ -83,10 +104,11 @@ export const ToastProvider: React.FC = ({ children }) => {
         <>
             <ProviderContext.Provider
                 value={{
-                    toastPromise,
-                    toastSuccess,
-                    toastError,
-                    toastClear,
+                    loading,
+                    success,
+                    error,
+                    promise,
+                    clear,
                 }}
             >
                 {children}

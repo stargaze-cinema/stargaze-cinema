@@ -16,9 +16,9 @@
         width: 320px;
         max-width: 400px;
         min-height: 50px;
-        background: $brand-blue;
-        border-radius: 7px;
-        box-shadow: $shadow-default;
+        background: $white-2;
+        border-radius: 10px;
+        box-shadow: $shadow-darken;
         margin: 0 20px 20px 0;
         padding: 6px 10px;
         bottom: 0;
@@ -28,15 +28,15 @@
 
         svg {
             width: 24px;
-            fill: $white-2;
+            fill: $brand-blue;
             path {
-                stroke: $white-2;
+                stroke: $brand-blue;
             }
             margin-right: 14px;
         }
         span {
             width: calc(100% - 24px);
-            color: $white-2;
+            color: $dark-2;
         }
         .spinAnimation {
             @include anim.spin(350ms);

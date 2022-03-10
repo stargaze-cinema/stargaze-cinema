@@ -1,25 +1,23 @@
-import axios from 'axios'
-import type { Movie } from '@/types/Movie'
 import { useModal } from '@/providers/ModalProvider'
 import { useToast } from '@/providers/ToastProvider'
-import { useAuth } from '@/providers/AuthProvider'
+import { useQueryClient, useMutation } from 'react-query'
+import { deleteMovie } from '@/services/movieService'
+import type { Movie } from '@/types/Movie'
 import { Edit, Cross } from '@/assets/icons/Misc'
 import style from '@/assets/styles/admin.module.scss'
 
 export const MoviesTableRow: React.FC<{ movie: Movie }> = ({ movie }) => {
-    const { user } = useAuth()
     const { showModal } = useModal()
-    const { toastPromise } = useToast()
+    const queryClient = useQueryClient()
+    const toast = useToast()
+    const { mutate } = useMutation(deleteMovie, {
+        onMutate: () => toast.loading('Deleting...'),
+        onSuccess: () => toast.success('Movie deleted'),
+        onError: (err: any) => toast.error(err.response?.data.message),
+        onSettled: () => queryClient.invalidateQueries('movies'),
+    })
 
-    const remove = () => {
-        toastPromise({
-            promise: axios.delete(`/movies/${movie.id}`, {
-                headers: { Authorization: user?.token as string },
-            }),
-            title: 'Deleting movie...',
-            onSuccess: () => location.reload(),
-        })
-    }
+    const remove = () => mutate(movie.id)
 
     return (
         <>

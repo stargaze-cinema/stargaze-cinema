@@ -31,8 +31,12 @@ export const SignInPage: React.FC = () => {
         toastPromise({
             promise: axios.post('/auth/signin', { email, password }),
             title: 'Signing in...',
-            onSuccess: ({ data }: { data: { token: string; user: User } }) => {
-                signIn(data.user, data.token, 1)
+            onSuccess: ({
+                data,
+            }: {
+                data: { token: { value: string; ttl: number }; user: User }
+            }) => {
+                signIn(data.user, data.token)
                 navigate('/')
             },
         })

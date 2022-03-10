@@ -5,4 +5,5 @@ export type User = {
     roles: string[]
     created_at: string
     updated_at: string
+    token: string
 }

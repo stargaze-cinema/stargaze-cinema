@@ -7,20 +7,13 @@ const AuthContext = createContext<AuthContextType>(null!)
 export const useAuth = () => useContext(AuthContext)
 
 interface AuthContextType {
-    user: CookieUser | null
+    user: User | null
     signIn: SignIn
     signOut: SignOut
 }
 
-type CookieUser = {
-    id: number
-    name: string
-    email: string
-    token: string
-}
-
 interface SignIn {
-    (user: CookieUser | User, token: string, ttl?: number): void
+    (user: User | User, token: { value: string; ttl: number }, ttl?: number): void
 }
 
 interface SignOut {
@@ -28,17 +21,17 @@ interface SignOut {
 }
 
 export const AuthProvider: React.FC = ({ children }) => {
-    const [user, setUser] = useState<CookieUser | null>(
+    const [user, setUser] = useState<User | null>(
         Cookies.get('user') && JSON.parse(Cookies.get('user') as string)
     )
 
-    const signIn: SignIn = (user, token, ttl) => {
+    const signIn: SignIn = (user, token) => {
         const userCombined = {
             ...user,
-            token: `Bearer ${token}`,
+            token: `Bearer ${token.value}`,
         }
         Cookies.set('user', JSON.stringify(userCombined), {
-            expires: ttl,
+            expires: new Date(token.ttl * 1000),
             sameSite: 'strict',
         })
         setUser(userCombined)

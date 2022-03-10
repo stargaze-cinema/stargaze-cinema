@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import axios from 'axios'
 import { useToast } from '@/providers/ToastProvider'
-import { useAuth } from '@/providers/AuthProvider'
+import { useQueryClient, useMutation } from 'react-query'
+import { updateMovie } from '@/services/movieService'
 import type { Movie } from '@/types/Movie'
 import { LabeledInput } from '../Inputs/LabeledInput'
 import { LabeledTextarea } from '../Inputs/LabeledTextarea'
+import { InputSubmit } from '../Inputs/InputSubmit'
 import { Modal } from './Modal'
 import style from '@/assets/styles/modal.module.scss'
-import { InputSubmit } from '../Inputs/InputSubmit'
 
 interface Props {
     movie: Movie
@@ -15,8 +15,18 @@ interface Props {
 }
 
 export const UpdateMovieModal: React.FC<Props> = ({ movie, onClose }) => {
-    const { toastPromise } = useToast()
-    const { user } = useAuth()
+    const queryClient = useQueryClient()
+    const toast = useToast()
+    const { mutate } = useMutation(updateMovie, {
+        onMutate: () => toast.loading('Updating...'),
+        onSuccess: () => {
+            toast.success('Movie updated')
+            onClose()
+        },
+        onError: (err: any) => toast.error(err.response?.data.message),
+        onSettled: () => queryClient.invalidateQueries('movies'),
+    })
+
     const [state, setState] = useState({
         title: movie.title,
         description: movie.description,
@@ -58,16 +68,7 @@ export const UpdateMovieModal: React.FC<Props> = ({ movie, onClose }) => {
             if ((key === 'category' || key === 'producer') && state[key] === movie[key].name)
                 delete data[key]
         }
-        toastPromise({
-            promise: axios.patch(`/movies/${movie.id}`, state, {
-                headers: { Authorization: user?.token as string },
-            }),
-            title: 'Updating...',
-            onSuccess: () => {
-                onClose()
-                location.reload()
-            },
-        })
+        mutate({ id: movie.id, data })
     }
 
     return (

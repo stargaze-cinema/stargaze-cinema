@@ -1,16 +1,26 @@
 import { useState } from 'react'
-import axios from 'axios'
 import { useToast } from '@/providers/ToastProvider'
-import { useAuth } from '@/providers/AuthProvider'
-import { Modal } from './Modal'
-import style from '@/assets/styles/modal.module.scss'
+import { useQueryClient, useMutation } from 'react-query'
+import { createMovie } from '@/services/movieService'
 import { LabeledInput } from '../Inputs/LabeledInput'
 import { LabeledTextarea } from '../Inputs/LabeledTextarea'
 import { InputSubmit } from '../Inputs/InputSubmit'
+import { Modal } from './Modal'
+import style from '@/assets/styles/modal.module.scss'
 
 export const CreateMovieModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-    const { toastPromise } = useToast()
-    const { user } = useAuth()
+    const queryClient = useQueryClient()
+    const toast = useToast()
+    const { mutate } = useMutation(createMovie, {
+        onMutate: () => toast.loading('Creating...'),
+        onSuccess: () => {
+            toast.success('Movie created')
+            onClose()
+        },
+        onError: (err: any) => toast.error(err.response?.data.message),
+        onSettled: () => queryClient.invalidateQueries('movies'),
+    })
+
     const [state, setState] = useState({
         title: '',
         description: '',
@@ -42,15 +52,7 @@ export const CreateMovieModal: React.FC<{ onClose: () => void }> = ({ onClose })
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        toastPromise({
-            promise: axios.post('/movies', state, {
-                headers: { Authorization: user?.token as string },
-            }),
-            title: 'Creating movie...',
-            onSuccess: () => {
-                onClose()
-            },
-        })
+        mutate(state)
     }
 
     return (
