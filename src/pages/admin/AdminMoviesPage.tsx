@@ -1,40 +1,29 @@
-import { lazy, Suspense, useState } from 'react'
-import useAxios from '@/hooks/useAxios'
-import type { Movie } from '@/types/Movie'
-import { MoviesTableHead, MoviesTableRow } from '@/components/Table/MoviesTable'
-import TablePlaceholder from '@/components/Table/TablePlaceholder'
-import CreateRecord from '@/components/Buttons/CreateRecord'
-import style from '@/styles/admin.module.scss'
+import { useQuery } from 'react-query'
+import { useModal } from '@/providers/ModalProvider'
+import { MoviesTableRow } from '@/components/Table/MoviesTable'
+import { MoviesTableHead } from '@/components/Table/MoviesTableHead'
+import { TablePlaceholder } from '@/components/Table/TablePlaceholder'
+import { CreateRecordBtn } from '@/components/Buttons/CreateRecordBtn'
+import { getMovies } from '@/services/movieService'
+import style from '@/assets/styles/admin.module.scss'
 
-interface IUseAxios {
-    data: Movie[]
-    loading: boolean
-    error?: string
-}
-
-const AdminMoviesPage = () => {
-    const [Modal, setModal] = useState<any>()
-    const { data, loading }: IUseAxios = useAxios('/movies')
-
-    const handleModalChange = () =>
-        setModal(lazy(() => import('../../components/Modals/CreateMovieModal')))
+export const AdminMoviesPage: React.FC = () => {
+    const { showModal } = useModal()
+    const { data, status } = useQuery('movies', getMovies)
 
     return (
         <div className={style.tablePage}>
             <div className={style.tableBtns}>
-                <CreateRecord onClick={handleModalChange} />
+                <CreateRecordBtn onClick={() => showModal('CreateMovieModal')} />
             </div>
             <div className={style.table}>
                 <MoviesTableHead />
-                {loading ? (
+                {status === 'loading' ? (
                     <TablePlaceholder cols={10} rows={10} />
                 ) : (
                     data?.map(movie => <MoviesTableRow key={movie.id} movie={movie} />)
                 )}
             </div>
-            <Suspense fallback={null}>{Modal && <Modal onClose={() => setModal(null)} />}</Suspense>
         </div>
     )
 }
-
-export default AdminMoviesPage

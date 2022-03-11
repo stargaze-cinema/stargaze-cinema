@@ -1,10 +1,6 @@
 import { PlusCircle } from '@/assets/icons/Misc'
 
-type Props = {
-    onClick: () => void
-}
-
-const CreateRecord = ({ onClick }: Props) => {
+export const CreateRecordBtn: React.FC<{ onClick: () => void }> = ({ onClick }) => {
     return (
         <button onClick={onClick}>
             <PlusCircle width={26} fill="white" />
@@ -12,5 +8,3 @@ const CreateRecord = ({ onClick }: Props) => {
         </button>
     )
 }
-
-export default CreateRecord

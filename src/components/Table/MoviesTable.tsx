@@ -1,45 +1,23 @@
-import axios from 'axios'
-import { lazy, Suspense, useState } from 'react'
-import { useToast } from '@/components/Providers/ToastProvider'
-import { Edit, Cross } from '@/assets/icons/Misc'
+import { useModal } from '@/providers/ModalProvider'
+import { useToast } from '@/providers/ToastProvider'
+import { useQueryClient, useMutation } from 'react-query'
+import { deleteMovie } from '@/services/movieService'
 import type { Movie } from '@/types/Movie'
-import style from '@/styles/admin.module.scss'
+import { Edit, Cross } from '@/assets/icons/Misc'
+import style from '@/assets/styles/admin.module.scss'
 
-interface MovieProps {
-    movie: Movie
-}
+export const MoviesTableRow: React.FC<{ movie: Movie }> = ({ movie }) => {
+    const { showModal } = useModal()
+    const queryClient = useQueryClient()
+    const toast = useToast()
+    const { mutate } = useMutation(deleteMovie, {
+        onMutate: () => toast.loading('Deleting...'),
+        onSuccess: () => toast.success('Movie deleted'),
+        onError: (err: any) => toast.error(err.response?.data.message),
+        onSettled: () => queryClient.invalidateQueries('movies'),
+    })
 
-export const MoviesTableHead = () => {
-    return (
-        <>
-            <span className={style.tableHead}>ID</span>
-            <span className={style.tableHead}>Title</span>
-            <span className={style.tableHead}>Description</span>
-            <span className={style.tableHead}>Poster</span>
-            <span className={style.tableHead}>Price</span>
-            <span className={style.tableHead}>Year</span>
-            <span className={style.tableHead}>Duration</span>
-            <span className={style.tableHead}>Category</span>
-            <span className={style.tableHead}>Producer</span>
-            <span className={style.tableHead}>Actions</span>
-        </>
-    )
-}
-
-export const MoviesTableRow = ({ movie }: MovieProps) => {
-    const { toastPromise } = useToast()
-    const [Modal, setModal] = useState<any>()
-
-    const handleModalChange = () =>
-        setModal(lazy(() => import('../../components/Modals/UpdateMovieModal')))
-
-    const remove = () => {
-        toastPromise({
-            promise: axios.delete(`/movies/${movie.id}`),
-            title: 'Deleting movie...',
-            onSuccess: () => location.reload(),
-        })
-    }
+    const remove = () => mutate(movie.id)
 
     return (
         <>
@@ -71,16 +49,13 @@ export const MoviesTableRow = ({ movie }: MovieProps) => {
                 <span>{movie.producer.name}</span>
             </div>
             <div className={style.tableCell}>
-                <button onClick={handleModalChange}>
+                <button onClick={() => showModal('UpdateMovieModal', { movie })}>
                     <Edit height={14} />
                 </button>
                 <button onClick={remove}>
                     <Cross height={14} />
                 </button>
             </div>
-            <Suspense fallback={null}>
-                {Modal && <Modal movie={movie} onClose={() => setModal(null)} />}
-            </Suspense>
         </>
     )
 }

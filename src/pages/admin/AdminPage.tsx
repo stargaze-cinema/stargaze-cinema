@@ -1,7 +1,7 @@
 import { Logo } from '@/assets/icons/Brand'
-import style from '@/styles/admin.module.scss'
+import style from '@/assets/styles/admin.module.scss'
 
-const AdminPage = () => {
+export const AdminPage: React.FC = () => {
     return (
         <div className={style.rootPage}>
             <div className={style.rootBtn}>
@@ -11,5 +11,3 @@ const AdminPage = () => {
         </div>
     )
 }
-
-export default AdminPage

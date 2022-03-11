@@ -1,0 +1,13 @@
+@use './index' as *;
+
+.authPage {
+    @include grid-center;
+    width: 100%;
+    height: calc(100vh - 64px);
+
+    form {
+        @include flex-column;
+        width: 400px;
+        margin: 20px 0;
+    }
+}

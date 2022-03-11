@@ -1,16 +1,26 @@
 import { useState } from 'react'
-import axios from 'axios'
-import type { ChangeEvent, FormEvent } from 'react'
-import { useToast } from '@/components/Providers/ToastProvider'
-import Modal from './Modal'
-import style from '@/styles/modal.module.scss'
+import { useToast } from '@/providers/ToastProvider'
+import { useQueryClient, useMutation } from 'react-query'
+import { createMovie } from '@/services/movieService'
+import { LabeledInput } from '../Inputs/LabeledInput'
+import { LabeledTextarea } from '../Inputs/LabeledTextarea'
+import { InputSubmit } from '../Inputs/InputSubmit'
+import { Modal } from './Modal'
+import style from '@/assets/styles/modal.module.scss'
 
-interface Props {
-    onClose: () => void
-}
+export const CreateMovieModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+    const queryClient = useQueryClient()
+    const toast = useToast()
+    const { mutate } = useMutation(createMovie, {
+        onMutate: () => toast.loading('Creating...'),
+        onSuccess: () => {
+            toast.success('Movie created')
+            onClose()
+        },
+        onError: (err: any) => toast.error(err.response?.data.message),
+        onSettled: () => queryClient.invalidateQueries('movies'),
+    })
 
-const CreateMovieModal = ({ onClose }: Props) => {
-    const { toastPromise } = useToast()
     const [state, setState] = useState({
         title: '',
         description: '',
@@ -21,104 +31,75 @@ const CreateMovieModal = ({ onClose }: Props) => {
         producer: '',
     })
 
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault()
-        toastPromise({
-            promise: axios.post('/movies', {
-                ...state,
-                price: parseFloat(state.price.toFixed(2)),
-            }),
-            title: 'Creating movie...',
-            onSuccess: () => {
-                onClose()
-                location.reload()
-            },
-        })
-    }
-
-    const handleChange = (e: ChangeEvent) => {
-        const el = e.target as HTMLInputElement
+    const handleChange = ({
+        target,
+    }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         let value
-        switch (el.name) {
+        switch (target.name) {
             case 'price':
-                value = parseFloat(el.value)
-                break
             case 'year':
             case 'duration':
-                value = +el.value
+                value = +target.value
                 break
             default:
-                value = el.value
+                value = target.value
         }
         setState({
             ...state,
-            [el.name]: value,
+            [target.name]: value,
         })
+    }
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        mutate(state)
     }
 
     return (
         <Modal title="Create movie" isOpen={true} onClose={onClose}>
             <div className={style.createModal}>
                 <form onSubmit={handleSubmit}>
-                    <label className={style.createLabel}>
-                        Title
-                        <input
-                            type="text"
-                            className={style.createInput}
-                            name="title"
-                            value={state.title}
-                            onChange={handleChange}
-                            required
-                        />
-                    </label>
-                    <label className={style.createLabel}>
-                        Description
-                        <textarea
-                            className={style.createTextarea}
-                            name="description"
-                            value={state.description}
-                            onChange={handleChange}
-                        ></textarea>
-                    </label>
-                    <label className={style.createLabel}>
-                        Duration (in minutes)
-                        <input
-                            type="number"
-                            className={style.createInput}
-                            name="duration"
-                            value={state.duration}
-                            onChange={handleChange}
-                            required
-                        />
-                    </label>
-                    <label className={style.createLabel}>
-                        Price
-                        <input
-                            type="number"
-                            className={style.createInput}
-                            name="price"
-                            value={state.price}
-                            onChange={handleChange}
-                            placeholder="20.00"
-                            min="0"
-                            max="99.99"
-                            step="0.01"
-                            required
-                        />
-                    </label>
-                    <label className={style.createLabel}>
-                        Year
-                        <input
-                            type="number"
-                            className={style.createInput}
-                            name="year"
-                            value={state.year}
-                            onChange={handleChange}
-                            placeholder="2022"
-                            min="1888"
-                            required
-                        />
-                    </label>
+                    <LabeledInput
+                        label="Title"
+                        name="title"
+                        value={state.title}
+                        onChange={handleChange}
+                        required
+                    />
+                    <LabeledTextarea
+                        label="Description"
+                        name="description"
+                        value={state.description}
+                        onChange={handleChange}
+                    />
+                    <LabeledInput
+                        label="Duration (in minutes)"
+                        type="number"
+                        name="duration"
+                        value={state.duration}
+                        onChange={handleChange}
+                        required
+                    />
+                    <LabeledInput
+                        label="Price"
+                        type="number"
+                        name="price"
+                        value={state.price}
+                        onChange={handleChange}
+                        min={0}
+                        max={99.99}
+                        step={0.01}
+                        required
+                    />
+                    <LabeledInput
+                        label="Year"
+                        type="number"
+                        name="year"
+                        value={state.year}
+                        onChange={handleChange}
+                        min={1888}
+                        required
+                    />
                     <label className={style.createLabel}>
                         Category
                         <select
@@ -164,11 +145,9 @@ const CreateMovieModal = ({ onClose }: Props) => {
                             />
                         </div>
                     </div>
-                    <input className={style.createSubmit} type="submit" value="Create movie" />
+                    <InputSubmit label="Create movie" />
                 </form>
             </div>
         </Modal>
     )
 }
-
-export default CreateMovieModal

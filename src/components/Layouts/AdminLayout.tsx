@@ -1,30 +1,10 @@
 import { useLocation, Outlet } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { Logo } from '@/assets/icons/Brand'
-import style from '@/styles/admin.module.scss'
+import { AdminListBtn } from '../Buttons/AdminListBtn'
+import style from '@/assets/styles/admin.module.scss'
 
-interface Props {
-    title: string
-    path: string
-}
-
-const AdminListBtn = ({ title, path }: Props) => {
-    return (
-        <>
-            {path.substring(7) === title.toLowerCase() ? (
-                <button className={style.btnActive} disabled>
-                    {title}
-                </button>
-            ) : (
-                <Link to={`/admin/${title.toLowerCase()}`}>
-                    <button>{title}</button>
-                </Link>
-            )}
-        </>
-    )
-}
-
-const AdminLayout = () => {
+export const AdminLayout: React.FC = () => {
     const location = useLocation()
     return (
         <div className={style.layout}>
@@ -50,5 +30,3 @@ const AdminLayout = () => {
         </div>
     )
 }
-
-export default AdminLayout

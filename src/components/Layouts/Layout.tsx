@@ -1,8 +1,10 @@
 import { Link, Outlet } from 'react-router-dom'
-import style from '@/styles/layout.module.scss'
+import style from '@/assets/styles/layout.module.scss'
 import { Logo } from '@/assets/icons/Brand'
+import { useAuth } from '@/providers/AuthProvider'
 
-const Layout = () => {
+export const Layout: React.FC = () => {
+    const { user } = useAuth()
     return (
         <>
             <div className={style.layout}>
@@ -10,11 +12,9 @@ const Layout = () => {
                 <Link to="/" style={{ margin: '0 20px' }}>
                     <Logo width={36} />
                 </Link>
-                <Link to="/signin">Sign in</Link>
+                {user ? <Link to="/admin">{user.name}</Link> : <Link to="/signin">Sign in</Link>}
             </div>
             <Outlet />
         </>
     )
 }
-
-export default Layout
