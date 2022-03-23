@@ -24,15 +24,18 @@ export const CreateMovieModal: React.FC<{ onClose: () => void }> = ({ onClose })
     const [state, setState] = useState({
         title: '',
         description: '',
+        poster: null,
         price: 0,
         year: 0,
         duration: 0,
         category: '',
         producer: '',
     })
+    const [posterPreview, setPosterPreview] = useState<any>()
 
     const handleChange = ({
         target,
+        currentTarget,
     }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         let value
         switch (target.name) {
@@ -40,6 +43,13 @@ export const CreateMovieModal: React.FC<{ onClose: () => void }> = ({ onClose })
             case 'year':
             case 'duration':
                 value = +target.value
+                break
+            case 'poster':
+                const trg = currentTarget as HTMLInputElement
+                if (trg.files) {
+                    value = trg.files[0]
+                    setPosterPreview(URL.createObjectURL(trg.files[0]))
+                }
                 break
             default:
                 value = target.value
@@ -52,7 +62,12 @@ export const CreateMovieModal: React.FC<{ onClose: () => void }> = ({ onClose })
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        mutate(state)
+        const data = new FormData()
+        for (const key in state) {
+            // @ts-ignore
+            data.append(key, state[key])
+        }
+        mutate(data)
     }
 
     return (
@@ -143,6 +158,7 @@ export const CreateMovieModal: React.FC<{ onClose: () => void }> = ({ onClose })
                                 type="file"
                                 accept="image/png, image/jpg, image/jpeg"
                             />
+                            {posterPreview && <img src={posterPreview} />}
                         </div>
                     </div>
                     <InputSubmit label="Create movie" />

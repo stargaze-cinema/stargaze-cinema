@@ -1,0 +1,65 @@
+@use './index' as *;
+
+.moviesPage {
+    @include flex-column;
+    width: 100vw;
+    height: calc(100vh - 64px);
+    padding: 46px 120px 0 120px;
+    overflow-y: scroll;
+
+    h1 {
+        font-weight: 800;
+    }
+
+    .filterBlock {
+        @include flex-row;
+        width: 100%;
+        height: 40px;
+        justify-content: space-between;
+        margin: 10px 0;
+
+        div {
+            display: flex;
+            height: inherit;
+            input,
+            select,
+            button {
+                min-width: 40px;
+                border-radius: 6px;
+                padding: 6px;
+                font-size: medium;
+                box-shadow: $shadow-lighten;
+                background: white;
+
+                @include transition;
+                &:active {
+                    background: $white-2;
+                }
+            }
+            &:first-child {
+                min-width: 200px;
+                width: 600px;
+                max-width: 600px;
+                input {
+                    width: inherit;
+                }
+            }
+            &:last-child {
+                width: fit-content;
+                margin-left: 20px;
+                select {
+                    width: 100px;
+                    margin-left: 6px;
+                }
+            }
+        }
+    }
+
+    .moviesList {
+        @include flex-row;
+        flex-wrap: wrap;
+        width: 100%;
+        height: fit-content;
+        margin-top: 20px;
+    }
+}

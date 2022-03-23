@@ -36,9 +36,11 @@ export const UpdateMovieModal: React.FC<Props> = ({ movie, onClose }) => {
         category: movie.category.name,
         producer: movie.producer.name,
     })
+    const [posterPreview, setPosterPreview] = useState<any>(movie.poster)
 
     const handleChange = ({
         target,
+        currentTarget,
     }: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         let value
         switch (target.name) {
@@ -46,6 +48,13 @@ export const UpdateMovieModal: React.FC<Props> = ({ movie, onClose }) => {
             case 'year':
             case 'duration':
                 value = +target.value
+                break
+            case 'poster':
+                const trg = currentTarget as HTMLInputElement
+                if (trg.files) {
+                    value = trg.files[0]
+                    setPosterPreview(URL.createObjectURL(trg.files[0]))
+                }
                 break
             default:
                 value = target.value
@@ -159,6 +168,7 @@ export const UpdateMovieModal: React.FC<Props> = ({ movie, onClose }) => {
                                 type="file"
                                 accept="image/png, image/jpg, image/jpeg"
                             />
+                            {posterPreview && <img src={posterPreview} />}
                         </div>
                     </div>
                     <InputSubmit label="Apply changes" />

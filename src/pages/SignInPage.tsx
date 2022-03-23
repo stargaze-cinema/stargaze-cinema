@@ -11,7 +11,7 @@ import style from '@/assets/styles/auth.module.scss'
 export const SignInPage: React.FC = () => {
     const { signIn } = useAuth()
     const navigate = useNavigate()
-    const { toastPromise } = useToast()
+    const { promise } = useToast()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -28,8 +28,8 @@ export const SignInPage: React.FC = () => {
 
     const handleSumbit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        toastPromise({
-            promise: axios.post('/auth/signin', { email, password }),
+        promise({
+            promise: axios.post(`${import.meta.env.APP_API_URL}/auth/signin`, { email, password }),
             title: 'Signing in...',
             onSuccess: ({
                 data,
