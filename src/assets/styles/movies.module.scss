@@ -1,4 +1,5 @@
 @use './index' as *;
+@use './animations' as *;
 
 .moviesPage {
     @include flex-column;
@@ -18,12 +19,15 @@
         justify-content: space-between;
         margin: 10px 0;
 
-        div {
+        .filterSearch {
             display: flex;
             height: inherit;
-            input,
-            select,
-            button {
+            min-width: 200px;
+            width: 600px;
+            max-width: 600px;
+            input {
+                width: inherit;
+                margin-right: 6px;
                 min-width: 40px;
                 border-radius: 6px;
                 padding: 6px;
@@ -36,20 +40,35 @@
                     background: $white-2;
                 }
             }
-            &:first-child {
-                min-width: 200px;
-                width: 600px;
-                max-width: 600px;
-                input {
-                    width: inherit;
+        }
+        .filterFilters {
+            display: flex;
+            height: inherit;
+            width: fit-content;
+            margin-left: 20px;
+            .filterSelect,
+            .filterBtn {
+                width: 100px;
+                margin-left: 6px;
+                min-width: 40px;
+                border-radius: 6px;
+                padding: 6px;
+                font-size: medium;
+                box-shadow: $shadow-lighten;
+                background: white;
+
+                @include transition;
+                &:active {
+                    background: $white-2;
                 }
             }
-            &:last-child {
-                width: fit-content;
-                margin-left: 20px;
-                select {
-                    width: 100px;
-                    margin-left: 6px;
+            .filterBtn {
+                width: 40px;
+
+                svg {
+                    width: 75%;
+                    fill: $brand-blue;
+                    @include spin();
                 }
             }
         }
