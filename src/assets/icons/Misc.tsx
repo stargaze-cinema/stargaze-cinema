@@ -54,3 +54,11 @@ export const Edit = (props: SVGProps<SVGSVGElement>) => {
         </svg>
     )
 }
+
+export const Arrow = (props: SVGProps<SVGSVGElement>) => {
+    return (
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+            <path d="M17.091 24a4.095 4.095 0 01-2.59-.92L4.34 14.66a3.397 3.397 0 01-1.277-2.659 3.41 3.41 0 011.277-2.66L14.501.922a4.176 4.176 0 014.403-.52 3.51 3.51 0 011.512 1.281 3.53 3.53 0 01.58 1.899V20.42a3.53 3.53 0 01-.58 1.899 3.509 3.509 0 01-1.512 1.281c-.569.26-1.187.396-1.813.4z" />
+        </svg>
+    )
+}

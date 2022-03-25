@@ -1,6 +1,18 @@
 import axios from 'axios'
 import { getUserCookie } from './authService'
-import type { Movie, PostMovie, UpdateMovie } from '@/types/Movie'
+import type { Movie, UpdateMovie } from '@/types/Movie'
+
+interface PaginatedMovies {
+    paginator: {
+        currentPage: number
+        perPage: number
+        totalPages: number
+        totalItems: number
+        nextPage: number
+        prevPage: number
+    }
+    data: Movie[]
+}
 
 const user = getUserCookie()
 const client = axios.create({
@@ -12,10 +24,10 @@ const client = axios.create({
     },
 })
 
-export const getMovies = async () => {
-    const res = await client.get('/movies')
+export const getMovies = async (params?: URLSearchParams) => {
+    const res = await client.get('/movies', { params })
 
-    return res.data as Movie[]
+    return res.data as PaginatedMovies
 }
 
 export const getMovie = async (id: number) => {
@@ -24,7 +36,7 @@ export const getMovie = async (id: number) => {
     return res.data as Movie
 }
 
-export const createMovie = async (data: PostMovie) => {
+export const createMovie = async (data: FormData) => {
     const res = await client.post('/movies', data)
 
     return res.data

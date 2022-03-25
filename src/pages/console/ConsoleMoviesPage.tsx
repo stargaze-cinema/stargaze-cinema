@@ -7,9 +7,9 @@ import { CreateRecordBtn } from '@/components/Buttons/CreateRecordBtn'
 import { getMovies } from '@/services/movieService'
 import style from '@/assets/styles/admin.module.scss'
 
-export const AdminMoviesPage: React.FC = () => {
+export const ConsoleMoviesPage: React.FC = () => {
     const { showModal } = useModal()
-    const { data, status } = useQuery('movies', getMovies)
+    const { data, status } = useQuery('movies', () => getMovies())
 
     return (
         <div className={style.tablePage}>
@@ -21,7 +21,7 @@ export const AdminMoviesPage: React.FC = () => {
                 {status === 'loading' ? (
                     <TablePlaceholder cols={10} rows={10} />
                 ) : (
-                    data?.map(movie => <MoviesTableRow key={movie.id} movie={movie} />)
+                    data?.data.map(movie => <MoviesTableRow key={movie.id} movie={movie} />)
                 )}
             </div>
         </div>

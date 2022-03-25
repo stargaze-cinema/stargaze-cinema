@@ -14,7 +14,7 @@ export const AdminListBtn: React.FC<Props> = ({ title, path }) => {
                     {title}
                 </button>
             ) : (
-                <Link to={`/admin/${title.toLowerCase()}`}>
+                <Link to={`${title.toLowerCase()}`}>
                     <button>{title}</button>
                 </Link>
             )}

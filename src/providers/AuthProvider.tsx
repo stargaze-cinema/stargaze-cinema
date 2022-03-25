@@ -1,6 +1,7 @@
 import { useState, createContext, useContext } from 'react'
 import { Navigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
+import { hasAdminRole } from '@/services/authService'
 import type { User } from '@/types/User'
 
 const AuthContext = createContext<AuthContextType>(null!)
@@ -62,6 +63,20 @@ export const RequireAuth: React.FC = ({ children }) => {
 
     if (!cookie) {
         return <Navigate to="/signin" replace />
+    }
+
+    return <>{children}</>
+}
+
+export const RequireAdmin: React.FC = ({ children }) => {
+    const cookie = Cookies.get('user')
+
+    if (!cookie) {
+        return <Navigate to="/signin" replace />
+    }
+
+    if (!hasAdminRole(JSON.parse(cookie) as User)) {
+        return <Navigate to="/" replace />
     }
 
     return <>{children}</>

@@ -124,10 +124,9 @@
                         justify-content: center;
 
                         img {
-                            border-radius: 14px;
+                            border-radius: 8px;
+                            width: 200px;
                             width: 300px;
-                            width: 400px;
-                            transition: all $transition-default;
                         }
                         input {
                             opacity: 0;

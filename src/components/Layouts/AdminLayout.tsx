@@ -12,7 +12,7 @@ export const AdminLayout: React.FC = () => {
                 <Link to="/">
                     <Logo width={36} />
                 </Link>
-                <span>PAXANDDOS</span>
+                <span>Administration console</span>
                 <button>Log out</button>
             </div>
             <div className={style.body}>
