@@ -1,11 +1,10 @@
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { AppProvider } from './providers/AppProvider'
 import { Router } from './router/Router'
 import '@/assets/styles/index.css'
 
-render(
+createRoot(document.getElementById('root') as Element).render(
     <AppProvider>
         <Router />
-    </AppProvider>,
-    document.getElementById('root')
+    </AppProvider>
 )

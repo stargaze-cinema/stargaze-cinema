@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Movie } from '@/types/Movie'
 import style from './movieBanner.module.scss'
 
@@ -7,7 +8,10 @@ interface Props {
 
 export const MovieBanner: React.FC<Props> = ({ movie }) => {
     return (
-        <a href={`/movies/${movie.title}`} className={style.banner}>
+        <Link
+            to={`/movies/${movie.title}?prefetch=${JSON.stringify(movie)}`}
+            className={style.banner}
+        >
             <img className={style.bannerPoster} src={movie.poster} alt="poster" />
             <div className={style.bannerContainer}>
                 <div className={style.bannerTags}>
@@ -18,6 +22,6 @@ export const MovieBanner: React.FC<Props> = ({ movie }) => {
                     <div className={style.bannerTag}>{movie.title}</div>
                 </div>
             </div>
-        </a>
+        </Link>
     )
 }

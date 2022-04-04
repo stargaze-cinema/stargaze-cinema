@@ -1,3 +1,8 @@
+import { Session } from './Session'
+import { Category } from './Category'
+import { Frame } from './Frame'
+import { Producer } from './Producer'
+
 export type Movie = {
     id: number
     title: string
@@ -6,21 +11,12 @@ export type Movie = {
     duration: number
     year: number
     price: number
-    category: { id: number; name: string }
-    producer: { id: number; name: string }
+    category: Category
+    producer: Producer
+    sessions: Session[]
+    frames: Frame[]
     created_at: string
     updated_at: string
-}
-
-type PostMovie = {
-    title: string
-    description?: string
-    poster?: string
-    duration: number
-    year: number
-    price: number
-    category: string
-    producer: string
 }
 
 export type UpdateMovie = {
@@ -30,6 +26,6 @@ export type UpdateMovie = {
     duration?: number
     year?: number
     price?: number
-    category?: string
-    producer?: string
+    category_id?: number
+    producer_id?: number
 }

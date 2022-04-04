@@ -30,7 +30,7 @@ export const getMovies = async (params?: URLSearchParams) => {
     return res.data as PaginatedMovies
 }
 
-export const getMovie = async (id: number) => {
+export const getMovie = async (id: number | string) => {
     const res = await client.get('/movies/' + id)
 
     return res.data as Movie
