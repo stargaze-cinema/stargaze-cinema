@@ -1,20 +1,25 @@
 import { useState, useEffect } from 'react'
 import { useQuery } from 'react-query'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useMatch, useSearch, MakeGenerics } from '@tanstack/react-location'
 import { MovieSelector } from '@/components/Movie/MovieSelector'
 import { MovieFramer } from '@/components/Movie/MovieFramer'
 import { MoviePoster } from '@/components/Movie/MoviePoster'
 import { getMovie } from '@/services/movieService'
 import { Movie } from '@/types/Movie'
 import style from '@/assets/styles/movie.module.scss'
+import { Footer } from '@/components/Footer'
+
+type Search = MakeGenerics<{
+    Search: {
+        prefetch?: string
+    }
+}>
 
 export const MoviePage: React.FC = () => {
-    const params = useParams()
-    const [searchParams] = useSearchParams()
+    const { params } = useMatch()
+    const { prefetch } = useSearch<Search>()
     const { data, status } = useQuery(`${params.movie}`, () => getMovie(params.movie as string))
-    const [movie, setMovie] = useState<Movie>(
-        searchParams.get('prefetch') ? JSON.parse(searchParams.get('prefetch') as string) : null
-    )
+    const [movie, setMovie] = useState<Movie>(prefetch as any)
 
     useEffect(() => {
         status === 'success' && setMovie(data)
@@ -33,10 +38,22 @@ export const MoviePage: React.FC = () => {
                         <div className={style.movieDesc}>
                             <h2>{movie.title}</h2>
                             <p>{movie.description}</p>
+                            <ul>
+                                <li>
+                                    <b>Year:</b> {movie.year}
+                                </li>
+                                <li>
+                                    <b>Duration:</b> {movie.duration}
+                                </li>
+                                <li>
+                                    <b>Average ticket price:</b> ${movie.price}
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </>
             )}
+            <Footer />
         </div>
     )
 }

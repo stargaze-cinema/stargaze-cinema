@@ -1,0 +1,9 @@
+@use '../assets/styles/index' as *;
+
+.footer {
+    @include grid-center;
+    width: 100vw;
+    height: 160px;
+    background: red;
+    position: relative;
+}

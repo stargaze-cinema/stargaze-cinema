@@ -3,7 +3,36 @@
 
 .moviePage {
     @include flex-column;
+    align-items: center;
     width: 100vw;
     height: calc(100vh - 64px);
     overflow-y: scroll;
+    background: $white-0;
+
+    .movieBody {
+        @include flex-column;
+        align-items: center;
+        width: calc(100% - 460px);
+        min-width: 600px;
+        background: $white-1;
+
+        .movieDesc {
+            width: calc(100% - 120px);
+
+            h2 {
+                font-size: 28px;
+                margin: 10px 0;
+            }
+
+            p {
+                font-size: 18px;
+                word-wrap: normal;
+                margin: 10px 0;
+            }
+
+            ul {
+                margin-left: 20px;
+            }
+        }
+    }
 }

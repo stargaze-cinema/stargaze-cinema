@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from '@tanstack/react-location'
 import { Movie } from '@/types/Movie'
 import style from './movieBanner.module.scss'
 

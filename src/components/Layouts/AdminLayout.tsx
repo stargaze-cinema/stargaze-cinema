@@ -1,11 +1,11 @@
-import { useLocation, Outlet } from 'react-router-dom'
-import { Link } from 'react-router-dom'
+import { useLocation, Outlet, Link } from '@tanstack/react-location'
 import { Logo } from '@/assets/icons/Brand'
 import { AdminListBtn } from '../Buttons/AdminListBtn'
 import style from '@/assets/styles/admin.module.scss'
 
 export const AdminLayout: React.FC = () => {
-    const location = useLocation()
+    const path = useLocation().current.pathname
+
     return (
         <div className={style.layout}>
             <div className={style.head}>
@@ -17,13 +17,13 @@ export const AdminLayout: React.FC = () => {
             </div>
             <div className={style.body}>
                 <div className={style.sidebar}>
-                    <AdminListBtn title="Users" path={location.pathname} />
-                    <AdminListBtn title="Movies" path={location.pathname} />
-                    <AdminListBtn title="Halls" path={location.pathname} />
-                    <AdminListBtn title="Sessions" path={location.pathname} />
-                    <AdminListBtn title="Tickets" path={location.pathname} />
-                    <AdminListBtn title="Categories" path={location.pathname} />
-                    <AdminListBtn title="Producers" path={location.pathname} />
+                    <AdminListBtn title="Users" path={path} />
+                    <AdminListBtn title="Movies" path={path} />
+                    <AdminListBtn title="Halls" path={path} />
+                    <AdminListBtn title="Sessions" path={path} />
+                    <AdminListBtn title="Tickets" path={path} />
+                    <AdminListBtn title="Categories" path={path} />
+                    <AdminListBtn title="Producers" path={path} />
                 </div>
                 <Outlet />
             </div>

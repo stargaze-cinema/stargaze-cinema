@@ -1,61 +1,60 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route } from '@tanstack/react-location'
 import { RequireAdmin, RequireAnon } from '@/providers/AuthProvider'
 import { AdminLayout } from '@/components/Layouts/AdminLayout'
-import { ConsolePage } from '@/pages/console/ConsolePage'
-import { ConsoleMoviesPage } from '@/pages/console/ConsoleMoviesPage'
-import { SignInPage } from '@/pages/SignInPage'
-import { SignUpPage } from '@/pages/SignUpPage'
 import { HelmetProvider } from '@/providers/HelmetProvider'
 
-export const ConsoleRouter: React.FC = () => {
-    return (
-        <Routes>
-            <Route
-                path="/"
-                element={
-                    <RequireAdmin>
-                        <AdminLayout />
-                    </RequireAdmin>
-                }
-            >
-                <Route
-                    index
-                    element={
-                        <HelmetProvider title="Index" console>
-                            <ConsolePage />
-                        </HelmetProvider>
-                    }
-                />
-                <Route
-                    path="movies"
-                    element={
-                        <HelmetProvider title="Movies" console>
-                            <ConsoleMoviesPage />
-                        </HelmetProvider>
-                    }
-                />
-            </Route>
-            <Route
-                path="/signin"
-                element={
+interface Router {
+    layout: JSX.Element
+    routes: Route[]
+}
+
+export const consoleRouter: Router = {
+    layout: (
+        <RequireAdmin>
+            <AdminLayout />
+        </RequireAdmin>
+    ),
+    routes: [
+        {
+            path: '/',
+            element: () =>
+                import('@/pages/console/ConsolePage').then(module => <module.ConsolePage />),
+        },
+        {
+            path: 'movies',
+            element: () =>
+                import('@/pages/console/ConsoleMoviesPage').then(module => (
+                    <HelmetProvider title="Movies" console>
+                        <module.ConsoleMoviesPage />
+                    </HelmetProvider>
+                )),
+        },
+        {
+            path: 'signin',
+            element: () =>
+                import('@/pages/SignInPage').then(module => (
                     <RequireAnon>
                         <HelmetProvider title="Sign in" console>
-                            <SignInPage />
+                            <module.SignInPage />
                         </HelmetProvider>
                     </RequireAnon>
-                }
-            />
-            <Route
-                path="/signup"
-                element={
+                )),
+        },
+        {
+            path: 'signup',
+            element: () =>
+                import('@/pages/SignUpPage').then(module => (
                     <RequireAnon>
                         <HelmetProvider title="Sign up" console>
-                            <SignUpPage />
+                            <module.SignUpPage />
                         </HelmetProvider>
                     </RequireAnon>
-                }
-            />
-            <Route path="*" element={<AdminLayout />} />
-        </Routes>
-    )
+                )),
+        },
+        {
+            path: '*',
+            element: () =>
+                import('@/pages/console/ConsolePage').then(module => <module.ConsolePage />),
+        },
+    ],
 }

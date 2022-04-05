@@ -1,5 +1,10 @@
+import { Pagination, Navigation } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import { Frame } from '@/types/Frame'
-import style from './movieSelector.module.scss'
+import style from './movieFramer.module.scss'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import 'swiper/css/navigation'
 
 interface Props {
     frames: Frame[]
@@ -7,10 +12,32 @@ interface Props {
 
 export const MovieFramer: React.FC<Props> = ({ frames }) => {
     return (
-        <div className={style.movieSelector}>
-            {frames.map(frame => (
-                <img key={frame.id} src={frame.image} />
-            ))}
+        <div className={style.movieFramer}>
+            <Swiper
+                pagination={{
+                    dynamicBullets: true,
+                }}
+                style={{
+                    // @ts-ignore
+                    '--swiper-navigation-color': '#6772eb',
+                    '--swiper-pagination-color': '#6772eb',
+                }}
+                navigation={true}
+                modules={[Pagination, Navigation]}
+                className={style.swiper}
+            >
+                {frames.map(frame => (
+                    <SwiperSlide key={frame.id}>
+                        <a href={frame.image} target="_blank" rel="noreferrer">
+                            <img
+                                src={frame.image}
+                                alt={`frame${frame.id}`}
+                                className={style.frame}
+                            />
+                        </a>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
         </div>
     )
 }

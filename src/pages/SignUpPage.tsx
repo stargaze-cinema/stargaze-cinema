@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from '@tanstack/react-location'
 import { useToast } from '@/providers/ToastProvider'
 import { LabeledInput } from '@/components/Inputs/LabeledInput'
 import { InputSubmit } from '@/components/Inputs/InputSubmit'
@@ -28,7 +28,7 @@ export const SignUpPage: React.FC = () => {
             promise: axios.post(`${import.meta.env.APP_API_URL}/auth/signup`, state),
             title: 'Signing up...',
             onSuccess: () => {
-                navigate('/signin')
+                navigate({ to: '/signin' })
             },
         })
     }
