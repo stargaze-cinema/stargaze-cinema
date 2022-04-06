@@ -1,1 +1,31 @@
 @use '../../assets/styles/index' as *;
+
+.selector {
+    @include flex-row;
+    width: calc(100% - 120px);
+    margin: 20px 0;
+    background: $white-0;
+
+    .dates {
+        @include flex-column;
+        width: 160px;
+        height: 100%;
+        background: $dark-8;
+
+        .dateBtn {
+            width: inherit;
+            height: 30px;
+
+            &[data-same='true'] {
+                color: $brand-blue;
+            }
+        }
+    }
+    .sessions {
+        @include flex-row;
+        flex-wrap: wrap;
+        width: calc(100% - 160px);
+        height: 100%;
+        background: $dark-7;
+    }
+}

@@ -7,7 +7,6 @@ import { MoviePoster } from '@/components/Movie/MoviePoster'
 import { getMovie } from '@/services/movieService'
 import { Movie } from '@/types/Movie'
 import style from '@/assets/styles/movie.module.scss'
-import { Footer } from '@/components/Footer'
 
 type Search = MakeGenerics<{
     Search: {
@@ -53,7 +52,6 @@ export const MoviePage: React.FC = () => {
                     </div>
                 </>
             )}
-            <Footer />
         </div>
     )
 }

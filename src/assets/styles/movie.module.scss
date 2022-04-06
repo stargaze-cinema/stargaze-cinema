@@ -4,10 +4,10 @@
 .moviePage {
     @include flex-column;
     align-items: center;
-    width: 100vw;
-    height: calc(100vh - 64px);
-    overflow-y: scroll;
     background: $white-0;
+    width: 100vw;
+    min-height: calc(100vh - 64px);
+    z-index: 1;
 
     .movieBody {
         @include flex-column;

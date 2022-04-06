@@ -4,9 +4,9 @@
 .moviesPage {
     @include flex-column;
     width: 100vw;
-    height: calc(100vh - 64px);
+    min-height: calc(100vh - 64px);
+    z-index: 1;
     padding: 46px 120px 0 120px;
-    overflow-y: scroll;
 
     h1 {
         font-weight: 800;
