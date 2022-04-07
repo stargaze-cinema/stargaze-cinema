@@ -4,28 +4,56 @@
     @include flex-row;
     width: calc(100% - 120px);
     margin: 20px 0;
-    background: $white-0;
+    background: $white-2;
+    padding: 16px 8px;
+    box-shadow: $shadow-lighten;
+    border-radius: 6px;
 
     .dates {
         @include flex-column;
-        width: 160px;
+        width: 200px;
         height: 100%;
-        background: $dark-8;
 
         .dateBtn {
             width: inherit;
-            height: 30px;
+            height: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 0.2px;
+            text-align: start;
+            padding: 0 16px;
+            border-radius: 50px;
+            margin: 4px 0;
 
             &[data-same='true'] {
                 color: $brand-blue;
+                background: $white-1;
+            }
+            &:hover {
+                background: $white-1;
             }
         }
     }
     .sessions {
         @include flex-row;
         flex-wrap: wrap;
-        width: calc(100% - 160px);
+        width: calc(100% - 200px);
         height: 100%;
-        background: $dark-7;
+        padding: 10px 20px;
+
+        .sessionBtn {
+            padding: 6px 16px;
+            background: $brand-blue;
+            color: $white-1;
+            border-radius: 50px;
+            margin-right: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 0.2px;
+
+            &:hover {
+                background: darken($brand-blue, 5%);
+            }
+        }
     }
 }

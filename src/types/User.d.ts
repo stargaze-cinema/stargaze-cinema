@@ -1,9 +1,8 @@
-export type User = {
-    id: number
+import { Entity } from './Entity'
+
+export interface User extends Entity {
     name: string
     email: string
     roles: 'User' | 'Administartor' | 'Moderator'
-    created_at: string
-    updated_at: string
     token: string
 }

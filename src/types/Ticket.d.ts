@@ -1,13 +1,11 @@
+import { Entity } from './Entity'
 import { Session } from './Session'
 import { User } from './User'
 
-export type Ticket = {
-    id: number
+export interface Ticket extends Entity {
     place: number
     user: User
     session: Session
-    created_at: string
-    updated_at: string
 }
 
 export type UpdateTicket = {

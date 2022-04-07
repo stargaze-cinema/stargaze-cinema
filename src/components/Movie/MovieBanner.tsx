@@ -9,7 +9,7 @@ interface Props {
 export const MovieBanner: React.FC<Props> = ({ movie }) => {
     return (
         <Link
-            to={`/movies/${movie.title}?prefetch=${JSON.stringify(movie)}`}
+            to={`/movies/${movie.title}?prefetch=${JSON.stringify({ ...movie, sessions: [] })}`}
             className={style.banner}
         >
             <img className={style.bannerPoster} src={movie.poster} alt="poster" />

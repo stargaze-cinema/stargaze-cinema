@@ -2,9 +2,9 @@ import { Session } from './Session'
 import { Category } from './Category'
 import { Frame } from './Frame'
 import { Producer } from './Producer'
+import { Entity } from './Entity'
 
-export type Movie = {
-    id: number
+export interface Movie extends Entity {
     title: string
     description?: string
     poster?: string
@@ -15,8 +15,6 @@ export type Movie = {
     producer: Producer
     sessions: Session[]
     frames: Frame[]
-    created_at: string
-    updated_at: string
 }
 
 export type UpdateMovie = {

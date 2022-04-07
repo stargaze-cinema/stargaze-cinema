@@ -1,9 +1,7 @@
+import { Entity } from './Entity'
 import { Movie } from './Movie'
 
-export type Frame = {
-    id: number
+export interface Frame extends Entity {
     image: string
     movie: Movie
-    created_at: string
-    updated_at: string
 }

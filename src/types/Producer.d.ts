@@ -1,11 +1,9 @@
+import { Entity } from './Entity'
 import { Movie } from './Movie'
 
-export type Producer = {
-    id: number
+export interface Producer extends Entity {
     name: string
     movies: Movie[]
-    created_at: string
-    updated_at: string
 }
 
 export type UpdateProducer = {
