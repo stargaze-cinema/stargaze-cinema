@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { useMatch, useSearch, MakeGenerics } from '@tanstack/react-location'
+import { MovieDescription } from '@/components/Movie/MovieDescription'
 import { MovieSelector } from '@/components/Movie/MovieSelector'
 import { MovieFramer } from '@/components/Movie/MovieFramer'
 import { MoviePoster } from '@/components/Movie/MoviePoster'
@@ -34,21 +35,7 @@ export const MoviePage: React.FC = () => {
                     <div className={style.movieBody}>
                         <MovieSelector sessions={movie.sessions} />
                         <MovieFramer frames={movie.frames} />
-                        <div className={style.movieDesc}>
-                            <h2>{movie.title}</h2>
-                            <p>{movie.description}</p>
-                            <ul>
-                                <li>
-                                    <b>Year:</b> {movie.year}
-                                </li>
-                                <li>
-                                    <b>Duration:</b> {movie.duration}
-                                </li>
-                                <li>
-                                    <b>Average ticket price:</b> ${movie.price}
-                                </li>
-                            </ul>
-                        </div>
+                        <MovieDescription movie={movie} />
                     </div>
                 </>
             )}

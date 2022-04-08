@@ -24,7 +24,7 @@ export const UpdateMovieModal: React.FC<Props> = ({ movie, onClose }) => {
             onClose()
         },
         onError: (err: any) => toast.error(err.response?.data.message),
-        onSettled: () => queryClient.invalidateQueries('movies'),
+        onSettled: () => queryClient.invalidateQueries(['movies']),
     })
 
     const [state, setState] = useState({

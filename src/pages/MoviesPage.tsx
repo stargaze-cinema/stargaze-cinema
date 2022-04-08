@@ -2,35 +2,37 @@ import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { MovieBanner } from '@/components/Movie/MovieBanner'
 import { useDebounce } from '@/hooks/useDebouce'
-import { getMovies } from '@/services/movieService'
 import { MovieBannerPlaceholder } from '@/components/Movie/MovieBannerPlaceholder'
 import { Loading } from '@/assets/icons/Misc'
 import { Paginator } from '@/components/Paginator/Paginator'
+import { getMovies } from '@/services/movieService'
+import { getCategories } from '@/services/categoryService'
+import { getProducers } from '@/services/producerService'
 import style from '@/assets/styles/movies.module.scss'
 
-type M = 'ASC' | 'DESC'
-type O = 'title' | 'year' | 'price' | 'duration' | 'created_at'
+type Method = 'ASC' | 'DESC'
+type Order = 'title' | 'year' | 'price' | 'duration' | 'created_at'
 
 export const MoviesPage: React.FC = () => {
     const [search, setSearch] = useState('')
-    const [method, setMethod] = useState<M>('DESC')
-    const [order, setOrder] = useState<O>('created_at')
+    const [method, setMethod] = useState<Method>('DESC')
+    const [order, setOrder] = useState<Order>('created_at')
     const [page, setPage] = useState<number>(1)
     const debouncedSearch = useDebounce(search, 800)
-    const { data, status, isLoading } = useQuery(
-        ['movies', debouncedSearch, order, method, page],
-        () => {
-            const params = new URLSearchParams()
-            params.append('title', debouncedSearch)
-            params.append('order', order)
-            params.append('orderMethod', method)
-            params.append('page', page.toString())
+    const moviesQuery = useQuery(['movies', debouncedSearch, order, method, page], () => {
+        const params = new URLSearchParams()
+        params.append('title', debouncedSearch)
+        params.append('order', order)
+        params.append('orderMethod', method)
+        params.append('page', page.toString())
 
-            return getMovies(params)
-        }
-    )
+        return getMovies(params)
+    })
+    const categoriesQuery = useQuery(['categories'], getCategories)
+    const producersQuery = useQuery(['producers'], getProducers)
+
     const changeOrder = ({ target }: React.ChangeEvent<HTMLSelectElement>) =>
-        setOrder(target.value as O)
+        setOrder(target.value as Order)
     const changeOrderMethod = () => setMethod(method === 'DESC' ? 'ASC' : 'DESC')
 
     return (
@@ -46,10 +48,10 @@ export const MoviesPage: React.FC = () => {
                     />
                 </div>
                 <div className={style.filterFilters}>
-                    {status === 'success' && (
-                        <Paginator paginator={data?.paginator} setPage={setPage} />
+                    {moviesQuery.status === 'success' && (
+                        <Paginator paginator={moviesQuery.data?.paginator} setPage={setPage} />
                     )}
-                    {isLoading && (
+                    {moviesQuery.isLoading && (
                         <button className={style.filterBtn}>
                             <Loading />
                         </button>
@@ -70,19 +72,25 @@ export const MoviesPage: React.FC = () => {
                         <option value="duration">Duration</option>
                         <option value="title">Alphabetical</option>
                     </select>
-                    <select name="category" className={style.filterSelect}>
-                        <option disabled selected value="">
-                            Category
-                        </option>
-                        <option>Action</option>
-                        <option>Cartoon</option>
+                    <select name="category" className={style.filterSelect} defaultValue="Category">
+                        <option disabled>Category</option>
+                        {categoriesQuery.data?.map(category => {
+                            return (
+                                <option key={category.id} value={category.id}>
+                                    {category.name}
+                                </option>
+                            )
+                        })}
                     </select>
-                    <select name="producer" className={style.filterSelect}>
-                        <option disabled selected value="">
-                            Producer
-                        </option>
-                        <option>John Fox</option>
-                        <option>Evan You</option>
+                    <select name="producer" className={style.filterSelect} defaultValue="Producer">
+                        <option disabled>Producer</option>
+                        {producersQuery.data?.map(producer => {
+                            return (
+                                <option key={producer.id} value={producer.id}>
+                                    {producer.name}
+                                </option>
+                            )
+                        })}
                     </select>
                 </div>
             </div>
@@ -90,10 +98,14 @@ export const MoviesPage: React.FC = () => {
                 {status === 'loading' ? (
                     <MovieBannerPlaceholder items={6} />
                 ) : (
-                    data?.data.map(movie => <MovieBanner key={movie.id} movie={movie} />)
+                    moviesQuery.data?.data.map(movie => (
+                        <MovieBanner key={movie.id} movie={movie} />
+                    ))
                 )}
             </div>
-            {status === 'success' && <Paginator paginator={data?.paginator} setPage={setPage} />}
+            {moviesQuery.status === 'success' && (
+                <Paginator paginator={moviesQuery.data?.paginator} setPage={setPage} />
+            )}
         </div>
     )
 }
