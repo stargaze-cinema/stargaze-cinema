@@ -9,7 +9,7 @@ import style from '@/assets/styles/admin.module.scss'
 
 export const ConsoleMoviesPage: React.FC = () => {
     const { showModal } = useModal()
-    const { data, status } = useQuery('movies', () => getMovies())
+    const { data, status } = useQuery(['movies'], () => getMovies())
 
     return (
         <div className={style.tablePage}>

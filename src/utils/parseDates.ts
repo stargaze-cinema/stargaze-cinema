@@ -5,7 +5,7 @@ interface Parser {
 }
 
 const isEntity = (key: any) => !!key && Object.prototype.hasOwnProperty.call(key, 'id')
-const isDate = (key: any) => typeof key === 'string' && !!Date.parse(key)
+const isDate = (key: any) => typeof key === 'string' && key.charAt(10) === 'T' && !!Date.parse(key)
 
 const parseInObject = (entity: any) => {
     Object.keys(entity).forEach(key => {

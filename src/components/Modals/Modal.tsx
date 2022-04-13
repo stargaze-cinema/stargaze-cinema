@@ -7,6 +7,7 @@ interface Props {
     title: string
     isOpen: boolean
     onClose: () => void
+    children: React.ReactNode
 }
 
 export const Modal: React.FC<Props> = ({ title, isOpen, children, onClose }) => {

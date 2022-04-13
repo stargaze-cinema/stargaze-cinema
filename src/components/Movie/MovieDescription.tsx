@@ -12,16 +12,17 @@ export const MovieDescription: React.FC<Props> = ({ movie }) => {
         <div className={style.movieDesc}>
             <div className={style.movieDescContent}>
                 <h2>{movie.title}</h2>
-                <p>{movie.description}</p>
+                <p>{movie.synopsis}</p>
             </div>
             <div className={style.movieDescInfo}>
                 <MovieInfo title="Year" content={movie.year} />
-                <MovieInfo title="Country" content={movie.year} />
-                <MovieInfo title="Language" content={movie.year} />
-                <MovieInfo title="Genre" content={movie.category.name} />
-                <MovieInfo title="Producer" content={movie.producer.name} />
+                <MovieInfo title="Country" content={movie.countries} />
+                <MovieInfo title="Language" content={movie.language.name} />
+                <MovieInfo title="Genre" content={movie.genres} />
+                <MovieInfo title="Director" content={movie.directors} />
                 <MovieInfo title="Average ticket price" content={`$${movie.price}`} />
-                <MovieInfo title="Duration" content={parseMinutes(movie.duration)} />
+                <MovieInfo title="Runtime" content={parseMinutes(movie.runtime)} />
+                <MovieInfo title="Rating" content={movie.rating} />
             </div>
         </div>
     )

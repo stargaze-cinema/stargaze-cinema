@@ -9,7 +9,7 @@ import { Modal } from './Modal'
 import style from '@/assets/styles/modal.module.scss'
 
 export const CreateMovieModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-    const queryClient = useQueryClient()
+    const { invalidateQueries } = useQueryClient()
     const toast = useToast()
     const { mutate } = useMutation(createMovie, {
         onMutate: () => toast.loading('Creating...'),
@@ -18,7 +18,7 @@ export const CreateMovieModal: React.FC<{ onClose: () => void }> = ({ onClose })
             onClose()
         },
         onError: (err: any) => toast.error(err.response?.data.message),
-        onSettled: () => queryClient.invalidateQueries('movies'),
+        onSettled: () => invalidateQueries(['movies']),
     })
 
     const [state, setState] = useState({

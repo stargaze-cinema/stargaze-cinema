@@ -16,6 +16,13 @@
         margin-bottom: 10px;
     }
 
+    .selectorNotFound {
+        @include grid-center;
+        width: 100%;
+        height: 168px;
+        opacity: 0.6;
+    }
+
     .selector {
         @include flex-row;
         width: 100%;

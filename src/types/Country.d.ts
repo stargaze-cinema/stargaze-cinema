@@ -1,11 +1,11 @@
 import { Entity } from './Entity'
 import { Movie } from './Movie'
 
-export interface Producer extends Entity {
+export interface Country extends Entity {
     name: string
     movies: Movie[]
 }
 
-export type UpdateProducer = {
+export type UpdateCountry = {
     name: string
 }

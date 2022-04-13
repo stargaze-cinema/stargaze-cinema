@@ -6,8 +6,7 @@ import { MovieBannerPlaceholder } from '@/components/Movie/MovieBannerPlaceholde
 import { Loading } from '@/assets/icons/Misc'
 import { Paginator } from '@/components/Paginator/Paginator'
 import { getMovies } from '@/services/movieService'
-import { getCategories } from '@/services/categoryService'
-import { getProducers } from '@/services/producerService'
+import { getGenres } from '@/services/genreService'
 import style from '@/assets/styles/movies.module.scss'
 
 type Method = 'ASC' | 'DESC'
@@ -28,8 +27,7 @@ export const MoviesPage: React.FC = () => {
 
         return getMovies(params)
     })
-    const categoriesQuery = useQuery(['categories'], getCategories)
-    const producersQuery = useQuery(['producers'], getProducers)
+    const genresQuery = useQuery(['genres'], getGenres)
 
     const changeOrder = ({ target }: React.ChangeEvent<HTMLSelectElement>) =>
         setOrder(target.value as Order)
@@ -72,22 +70,12 @@ export const MoviesPage: React.FC = () => {
                         <option value="duration">Duration</option>
                         <option value="title">Alphabetical</option>
                     </select>
-                    <select name="category" className={style.filterSelect} defaultValue="Category">
-                        <option disabled>Category</option>
-                        {categoriesQuery.data?.map(category => {
+                    <select name="genre" className={style.filterSelect} defaultValue="Genre">
+                        <option disabled>Genre</option>
+                        {genresQuery.data?.map(genre => {
                             return (
-                                <option key={category.id} value={category.id}>
-                                    {category.name}
-                                </option>
-                            )
-                        })}
-                    </select>
-                    <select name="producer" className={style.filterSelect} defaultValue="Producer">
-                        <option disabled>Producer</option>
-                        {producersQuery.data?.map(producer => {
-                            return (
-                                <option key={producer.id} value={producer.id}>
-                                    {producer.name}
+                                <option key={genre.id} value={genre.id}>
+                                    {genre.name}
                                 </option>
                             )
                         })}
@@ -95,7 +83,7 @@ export const MoviesPage: React.FC = () => {
                 </div>
             </div>
             <div className={style.moviesList}>
-                {status === 'loading' ? (
+                {moviesQuery.status === 'loading' ? (
                     <MovieBannerPlaceholder items={6} />
                 ) : (
                     moviesQuery.data?.data.map(movie => (

@@ -21,7 +21,7 @@ interface SignOut {
     (): void
 }
 
-export const AuthProvider: React.FC = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(
         Cookies.get('user') && JSON.parse(Cookies.get('user') as string)
     )
@@ -58,7 +58,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     )
 }
 
-export const RequireAuth: React.FC = ({ children }) => {
+export const RequireAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const cookie = Cookies.get('user')
 
     if (!cookie) {
@@ -68,7 +68,7 @@ export const RequireAuth: React.FC = ({ children }) => {
     return <>{children}</>
 }
 
-export const RequireAdmin: React.FC = ({ children }) => {
+export const RequireAdmin: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const cookie = Cookies.get('user')
 
     if (!cookie) {
@@ -82,7 +82,7 @@ export const RequireAdmin: React.FC = ({ children }) => {
     return <>{children}</>
 }
 
-export const RequireAnon: React.FC = ({ children }) => {
+export const RequireAnon: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const cookie = Cookies.get('user')
 
     if (cookie) {

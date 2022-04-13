@@ -16,7 +16,7 @@ export const MovieBanner: React.FC<Props> = ({ movie }) => {
             <div className={style.bannerContainer}>
                 <div className={style.bannerTags}>
                     <div className={style.bannerTag}>{movie.year}</div>
-                    <div className={style.bannerTag}>{movie.category.name}</div>
+                    <div className={style.bannerTag}>{movie.genres[0].name}</div>
                 </div>
                 <div className={style.bannerTags}>
                     <div className={style.bannerTag}>{movie.title}</div>

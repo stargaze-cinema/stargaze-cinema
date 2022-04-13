@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const UpdateMovieModal: React.FC<Props> = ({ movie, onClose }) => {
-    const queryClient = useQueryClient()
+    const { invalidateQueries } = useQueryClient()
     const toast = useToast()
     const { mutate } = useMutation(updateMovie, {
         onMutate: () => toast.loading('Updating...'),
@@ -24,7 +24,7 @@ export const UpdateMovieModal: React.FC<Props> = ({ movie, onClose }) => {
             onClose()
         },
         onError: (err: any) => toast.error(err.response?.data.message),
-        onSettled: () => queryClient.invalidateQueries(['movies']),
+        onSettled: () => invalidateQueries(['movies']),
     })
 
     const [state, setState] = useState({
