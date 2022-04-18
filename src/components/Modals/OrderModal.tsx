@@ -11,7 +11,7 @@ interface Props {
 
 export const OrderModal: React.FC<Props> = ({ session, onClose }) => {
     const { data, status } = useQuery(['session', session.id], () => getSession(session.id))
-    console.log(data)
+
     return (
         <Modal title="Book a ticket" isOpen={true} onClose={onClose}>
             <div className={style.orderModal}></div>
