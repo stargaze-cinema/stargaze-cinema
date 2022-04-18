@@ -4,7 +4,8 @@
 .layout {
     @include flex-column;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
+    z-index: 1;
 
     .head {
         @include flex-row;
@@ -95,7 +96,7 @@
             .tableBtns {
                 @include flex-row;
                 width: 100%;
-                height: 50px;
+                min-height: 50px;
                 margin-bottom: 10px;
 
                 button {
@@ -122,12 +123,16 @@
 
             .table {
                 display: grid;
+                width: 100%;
+                min-height: 100%;
+                overflow-y: scroll;
                 grid-template-columns: 0.4fr 1.5fr 2fr 1.1fr 0.6fr 0.6fr 0.6fr 1.2fr 1.2fr 1fr;
                 grid-template-rows: 1fr 1fr;
                 gap: 2px;
                 grid-template-areas: '. . . . . . . . . .';
                 justify-content: center;
                 align-items: center;
+                margin-bottom: 30px;
 
                 .tableHead {
                     @include grid-center;

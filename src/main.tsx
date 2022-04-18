@@ -1,11 +1,28 @@
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
+import { Router, ReactLocation } from '@tanstack/react-location'
 import { AppProvider } from './providers/AppProvider'
-import { Router } from './router/Router'
+import { appRouter } from '@/router/appRouter'
+import { consoleRouter } from '@/router/consoleRouter'
 import '@/assets/styles/index.css'
 
-render(
+const location = new ReactLocation()
+
+const getRouter = () => {
+    const subdomains = window.location.host.split('.')
+    const currentSubdomain = subdomains[0] === 'www' ? subdomains[1] : subdomains[0]
+
+    const router: any = {
+        app: appRouter,
+        console: consoleRouter,
+    }
+
+    return router[currentSubdomain] || router['app']
+}
+
+createRoot(document.getElementById('root') as Element).render(
     <AppProvider>
-        <Router />
-    </AppProvider>,
-    document.getElementById('root')
+        <Router location={location} routes={getRouter().routes}>
+            {getRouter().layout}
+        </Router>
+    </AppProvider>
 )

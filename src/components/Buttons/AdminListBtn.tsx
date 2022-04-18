@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from '@tanstack/react-location'
 import style from '@/assets/styles/admin.module.scss'
 
 interface Props {

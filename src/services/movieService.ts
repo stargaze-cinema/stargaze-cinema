@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { getUserCookie } from './authService'
+import { axiosClient } from '@/utils/axiosClient'
+import { parseDates } from '@/utils/parseDates'
 import type { Movie, UpdateMovie } from '@/types/Movie'
 
 interface PaginatedMovies {
@@ -14,42 +14,35 @@ interface PaginatedMovies {
     data: Movie[]
 }
 
-const user = getUserCookie()
-const client = axios.create({
-    baseURL: import.meta.env.APP_API_URL,
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: user?.token as string,
-    },
-})
-
 export const getMovies = async (params?: URLSearchParams) => {
-    const res = await client.get('/movies', { params })
+    const res = await axiosClient.get('/movies', { params })
 
-    return res.data as PaginatedMovies
+    return {
+        paginator: res.data.paginator,
+        data: parseDates(res.data.data),
+    } as PaginatedMovies
 }
 
-export const getMovie = async (id: number) => {
-    const res = await client.get('/movies/' + id)
+export const getMovie = async (id: number | string) => {
+    const res = await axiosClient.get('/movies/' + id)
 
-    return res.data as Movie
+    return parseDates(res.data) as Movie
 }
 
 export const createMovie = async (data: FormData) => {
-    const res = await client.post('/movies', data)
+    const res = await axiosClient.post('/movies', data)
 
-    return res.data
+    return parseDates(res.data) as Movie
 }
 
 export const updateMovie = async ({ id, data }: { id: number; data: UpdateMovie }) => {
-    const res = await client.patch('/movies/' + id, data)
+    const res = await axiosClient.patch('/movies/' + id, data)
 
-    return res.data
+    return parseDates(res.data) as Movie
 }
 
 export const deleteMovie = async (id: number) => {
-    const res = await client.delete('/movies/' + id)
+    const res = await axiosClient.delete('/movies/' + id)
 
     return res.data
 }

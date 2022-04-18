@@ -4,7 +4,7 @@ import { ToastProvider } from './ToastProvider'
 import { QueryProvider } from './QueryProvider'
 import { ModalProvider } from './ModalProvider'
 
-export const AppProvider: React.FC = ({ children }) => {
+export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <StrictMode>
             <ToastProvider>

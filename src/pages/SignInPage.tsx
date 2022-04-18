@@ -1,7 +1,7 @@
 import axios from 'axios'
 import type { User } from '@/types/User'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from '@tanstack/react-location'
 import { useToast } from '@/providers/ToastProvider'
 import { useAuth } from '@/providers/AuthProvider'
 import { LabeledInput } from '@/components/Inputs/LabeledInput'
@@ -37,33 +37,35 @@ export const SignInPage: React.FC = () => {
                 data: { token: { value: string; ttl: number }; user: User }
             }) => {
                 signIn(data.user, data.token)
-                navigate('/')
+                navigate({ to: '/' })
             },
         })
     }
 
     return (
-        <div className={style.authPage}>
-            <form onSubmit={handleSumbit}>
-                <LabeledInput
-                    label="Your email"
-                    type="email"
-                    name="email"
-                    value={email}
-                    onChange={handleChange}
-                />
-                <LabeledInput
-                    label="Your password"
-                    type="password"
-                    name="password"
-                    value={password}
-                    onChange={handleChange}
-                />
-                <InputSubmit label="Sign in" />
-                <span>
-                    Not a member yet? <Link to="/signup">Sign up!</Link>
-                </span>
-            </form>
-        </div>
+        <>
+            <div className={style.authPage}>
+                <form onSubmit={handleSumbit}>
+                    <LabeledInput
+                        label="Your email"
+                        type="email"
+                        name="email"
+                        value={email}
+                        onChange={handleChange}
+                    />
+                    <LabeledInput
+                        label="Your password"
+                        type="password"
+                        name="password"
+                        value={password}
+                        onChange={handleChange}
+                    />
+                    <InputSubmit label="Sign in" />
+                    <span>
+                        Not a member yet? <Link to="/signup">Sign up!</Link>
+                    </span>
+                </form>
+            </div>
+        </>
     )
 }

@@ -22,7 +22,7 @@ interface Toast {
     clear: () => void
 }
 
-export const ToastProvider: React.FC = ({ children }) => {
+export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [rendered, setRendered] = useState(false)
     const [title, setTitle] = useState('')
     const [icon, setIcon] = useState<any>(null)

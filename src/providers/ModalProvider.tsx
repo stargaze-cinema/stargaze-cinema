@@ -11,7 +11,7 @@ interface ShowModal {
     (name: string, props?: object): void
 }
 
-export const ModalProvider: React.FC = ({ children }) => {
+export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [Modal, setModal] = useState<any>()
     const [props, setProps] = useState<object>()
 

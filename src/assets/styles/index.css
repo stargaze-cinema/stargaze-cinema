@@ -59,9 +59,10 @@ a {
 }
 
 body {
-    background-color: #f5f5f5;
-    overflow-x: hidden;
-    overflow-y: hidden;
+    width: 100vw;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+    overflow: hidden scroll;
     scroll-behavior: smooth;
 }
 ::-webkit-scrollbar {

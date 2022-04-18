@@ -8,13 +8,13 @@ import style from '@/assets/styles/admin.module.scss'
 
 export const MoviesTableRow: React.FC<{ movie: Movie }> = ({ movie }) => {
     const { showModal } = useModal()
-    const queryClient = useQueryClient()
+    const { invalidateQueries } = useQueryClient()
     const toast = useToast()
     const { mutate } = useMutation(deleteMovie, {
         onMutate: () => toast.loading('Deleting...'),
         onSuccess: () => toast.success('Movie deleted'),
         onError: (err: any) => toast.error(err.response?.data.message),
-        onSettled: () => queryClient.invalidateQueries('movies'),
+        onSettled: () => invalidateQueries(['movies']),
     })
 
     const remove = () => mutate(movie.id)

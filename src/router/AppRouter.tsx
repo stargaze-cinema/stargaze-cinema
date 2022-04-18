@@ -1,50 +1,69 @@
-import { Route, Routes, Navigate } from 'react-router-dom'
+import { Route, Navigate } from '@tanstack/react-location'
 import { HelmetProvider } from '@/providers/HelmetProvider'
 import { RequireAnon } from '@/providers/AuthProvider'
 import { Layout } from '@/components/Layouts/Layout'
-import { MoviesPage } from '@/pages/MoviesPage'
-import { MoviePage } from '@/pages/MoviePage'
-import { SignInPage } from '@/pages/SignInPage'
-import { SignUpPage } from '@/pages/SignUpPage'
+import { Footer } from '@/components/Footer'
 
-export const AppRouter: React.FC = () => {
-    return (
-        <Routes>
-            <Route path="/" element={<Layout />}>
-                <Route index element={<Navigate to="/movies" />} />
-                <Route path="movies">
-                    <Route
-                        index
-                        element={
+interface Router {
+    layout: JSX.Element
+    routes: Route[]
+}
+
+export const appRouter: Router = {
+    layout: <Layout />,
+    routes: [
+        {
+            path: '/',
+            element: <Navigate to="/movies" />,
+        },
+        {
+            path: 'movies',
+            children: [
+                {
+                    path: '/',
+                    element: () =>
+                        import('@/pages/MoviesPage').then(module => (
                             <HelmetProvider title="Movies">
-                                <MoviesPage />
+                                <module.MoviesPage />
+                                <Footer />
                             </HelmetProvider>
-                        }
-                    />
-                    <Route path=":movie" element={<MoviePage />} />
-                </Route>
-                <Route
-                    path="signin"
-                    element={
-                        <RequireAnon>
-                            <HelmetProvider title="Sign in">
-                                <SignInPage />
+                        )),
+                },
+                {
+                    path: ':movie',
+                    element: () =>
+                        import('@/pages/MoviePage').then(module => (
+                            <HelmetProvider title="Movie">
+                                <module.MoviePage />
+                                <Footer />
                             </HelmetProvider>
-                        </RequireAnon>
-                    }
-                />
-                <Route
-                    path="signup"
-                    element={
-                        <RequireAnon>
-                            <HelmetProvider title="Sign up">
-                                <SignUpPage />
-                            </HelmetProvider>
-                        </RequireAnon>
-                    }
-                />
-            </Route>
-            <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-    )
+                        )),
+                },
+            ],
+        },
+        {
+            path: 'signin',
+            element: () =>
+                import('@/pages/SignInPage').then(module => (
+                    <HelmetProvider title="Sign in">
+                        <module.SignInPage />
+                    </HelmetProvider>
+                )),
+        },
+        {
+            path: 'signup',
+            element: () =>
+                import('@/pages/SignUpPage').then(module => (
+                    <RequireAnon>
+                        <HelmetProvider title="Sign up">
+                            <module.SignUpPage />
+                        </HelmetProvider>
+                    </RequireAnon>
+                )),
+        },
+        {
+            path: '*',
+            element: <Navigate to="/movies" />,
+        },
+    ],
 }
