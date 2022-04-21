@@ -1,0 +1,24 @@
+version: "3.9"
+
+networks:
+    stargaze:
+        name: stargaze
+        driver: bridge
+
+services:
+    node:
+        container_name: node
+        image: node
+        build:
+            context: .
+        environment:
+            NODE_ENV: ${NODE_ENV:-development}
+        command: npm run start:${NODE_ENV:-development}
+        restart: unless-stopped
+        volumes:
+            - ./:/app
+            - /app/node_modules
+        ports:
+            - 3000:3000
+        networks:
+            - stargaze

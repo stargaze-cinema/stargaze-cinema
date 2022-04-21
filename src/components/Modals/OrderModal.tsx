@@ -14,7 +14,9 @@ export const OrderModal: React.FC<Props> = ({ session, onClose }) => {
 
     return (
         <Modal title="Book a ticket" isOpen={true} onClose={onClose}>
-            <div className={style.orderModal}></div>
+            <div className={style.orderModal}>
+                {status === 'loading' ? <span>Loading...</span> : <span>{data?.id}</span>}
+            </div>
         </Modal>
     )
 }
