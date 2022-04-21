@@ -3,6 +3,4 @@
 
 [ -n "$CI" ] && exit 0
 
-npm run lint || npm.cmd run lint
-npm run format || npm.cmd run format
-npm run typecheck || npm.cmd run typecheck
+npm run lint-staged || npm.cmd run lint-staged

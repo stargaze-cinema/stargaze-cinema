@@ -4,7 +4,7 @@ USER root
 WORKDIR /app
 
 COPY package*.json tsconfig*.json ./
-RUN npm install -g npm@8.7.0 \
+RUN npm install -g npm@latest \
     && npm ci \
     && npm rebuild esbuild \
     && npm cache clean --force

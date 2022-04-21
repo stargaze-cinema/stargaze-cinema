@@ -1,0 +1,66 @@
+image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/docker:20.10.14
+
+services:
+    - name: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/docker:20.10.14-dind
+      alias: docker
+
+stages:
+    - build
+    - test
+    - release
+    - deploy
+
+variables:
+    APP_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+    APP_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ''
+
+cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+        - node_modules/
+    policy: pull-push
+
+.load_images: &load_images
+    - docker load -i node.tar
+
+before_script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+    - cp .env.example .env
+    - docker info
+
+Build images:
+    stage: build
+    tags:
+        - r2
+    script:
+        - docker build --pull -f Dockerfile -t $APP_IMAGE .
+        - docker save -o node.tar $APP_IMAGE
+    needs: []
+    artifacts:
+        paths:
+            - node.tar
+
+Release images:
+    stage: release
+    when: on_success
+    tags:
+        - r2
+    script:
+        - *load_images
+        - docker tag $APP_IMAGE $APP_RELEASE_IMAGE
+        - docker push $APP_RELEASE_IMAGE
+        - docker push $APP_IMAGE
+    needs:
+        - job: Build images
+          artifacts: true
+
+Deploy app:
+    stage: deploy
+    when: manual
+    script:
+        - deploy.sh
+    only:
+        - master
