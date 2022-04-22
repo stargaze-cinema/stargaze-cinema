@@ -6,7 +6,7 @@ import { LabeledInput } from '../Inputs/LabeledInput'
 import { LabeledTextarea } from '../Inputs/LabeledTextarea'
 import { InputSubmit } from '../Inputs/InputSubmit'
 import { Modal } from './Modal'
-import style from '@/assets/styles/modal.module.scss'
+import style from './formModal.module.scss'
 
 export const CreateMovieModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     const { invalidateQueries } = useQueryClient()
@@ -72,7 +72,7 @@ export const CreateMovieModal: React.FC<{ onClose: () => void }> = ({ onClose })
 
     return (
         <Modal title="Create movie" isOpen={true} onClose={onClose}>
-            <div className={style.createModal}>
+            <div className={style.formModal}>
                 <form onSubmit={handleSubmit}>
                     <LabeledInput
                         label="Title"
@@ -115,12 +115,12 @@ export const CreateMovieModal: React.FC<{ onClose: () => void }> = ({ onClose })
                         min={1888}
                         required
                     />
-                    <label className={style.createLabel}>
+                    <label className={style.formLabel}>
                         Category
                         <select
                             value={state.category}
                             name="category"
-                            className={style.createSelect}
+                            className={style.formSelect}
                             onChange={handleChange}
                             required
                         >
@@ -131,12 +131,12 @@ export const CreateMovieModal: React.FC<{ onClose: () => void }> = ({ onClose })
                             <option>Cartoon</option>
                         </select>
                     </label>
-                    <label className={style.createLabel}>
+                    <label className={style.formLabel}>
                         Producer
                         <select
                             value={state.producer}
                             name="producer"
-                            className={style.createSelect}
+                            className={style.formSelect}
                             onChange={handleChange}
                             required
                         >
@@ -147,9 +147,9 @@ export const CreateMovieModal: React.FC<{ onClose: () => void }> = ({ onClose })
                             <option>Evan You</option>
                         </select>
                     </label>
-                    <div className={style.createLabel}>
+                    <div className={style.formLabel}>
                         Poster
-                        <div className={style.createPoster}>
+                        <div className={style.formPoster}>
                             <label htmlFor="poster">Upload a poster</label>
                             <input
                                 id="poster"

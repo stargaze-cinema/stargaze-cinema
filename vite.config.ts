@@ -4,12 +4,12 @@ import { join } from 'path'
 
 export default defineConfig({
     mode: process.env.NODE_ENV,
-    root: __dirname,
-    base: './',
+    root: process.cwd(),
+    base: '/',
     plugins: [react()],
     resolve: {
         alias: {
-            '@': join(__dirname, 'src'),
+            '@': join(process.cwd(), 'src'),
         },
     },
     server: {

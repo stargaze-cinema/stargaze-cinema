@@ -1,4 +1,4 @@
-@use './index' as *;
+@use '../../assets/styles/index' as *;
 
 .layout {
     @include flex-center;

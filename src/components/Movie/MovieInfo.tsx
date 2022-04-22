@@ -4,7 +4,7 @@ import style from './movieInfo.module.scss'
 
 interface Props {
     title: string
-    content: string | number | Array<Entity>
+    content: string | number | Array<Entity> | undefined
 }
 
 export const MovieInfo: React.FC<Props> = ({ title, content }) => {
@@ -13,7 +13,7 @@ export const MovieInfo: React.FC<Props> = ({ title, content }) => {
             if (content.length > 1) return content.map(item => item.name).join(', ')
             return content[0].name
         }
-        return content
+        return content || 'Loading...'
     }, [content])
 
     return (

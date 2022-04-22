@@ -1,0 +1,31 @@
+@use '../../assets/styles/index' as *;
+
+.orderModal {
+    @include flex-column;
+    .placeSelector {
+        @include flex-row;
+        @include unselectable;
+        flex-wrap: wrap;
+        width: 100%;
+        height: fit-content;
+        padding: 0 40px;
+
+        .place {
+            @include grid-center;
+            width: 20px;
+            height: 30px;
+            background: $brand-blue;
+            border-radius: 4px;
+            margin-right: 12px;
+            margin-bottom: 8px;
+            color: $white-2;
+            cursor: pointer;
+        }
+    }
+
+    .orderInfo {
+        @include flex-column;
+        padding: 0 4px;
+        margin-top: 20px;
+    }
+}

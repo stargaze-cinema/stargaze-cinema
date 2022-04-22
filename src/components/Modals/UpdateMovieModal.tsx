@@ -82,7 +82,7 @@ export const UpdateMovieModal: React.FC<Props> = ({ movie, onClose }) => {
 
     return (
         <Modal title="Edit movie" isOpen={true} onClose={onClose}>
-            <div className={style.createModal}>
+            <div className={style.formModal}>
                 <form onSubmit={handleSubmit}>
                     <LabeledInput
                         label="Title"
@@ -125,12 +125,12 @@ export const UpdateMovieModal: React.FC<Props> = ({ movie, onClose }) => {
                         min={1888}
                         required
                     />
-                    <label className={style.createLabel}>
+                    <label className={style.formLabel}>
                         Category
                         <select
                             value={state.category}
                             name="category"
-                            className={style.createSelect}
+                            className={style.formSelect}
                             onChange={handleChange}
                             required
                         >
@@ -141,12 +141,12 @@ export const UpdateMovieModal: React.FC<Props> = ({ movie, onClose }) => {
                             <option>Cartoon</option>
                         </select>
                     </label>
-                    <label className={style.createLabel}>
+                    <label className={style.formLabel}>
                         Producer
                         <select
                             value={state.producer}
                             name="producer"
-                            className={style.createSelect}
+                            className={style.formSelect}
                             onChange={handleChange}
                             required
                         >
@@ -157,9 +157,9 @@ export const UpdateMovieModal: React.FC<Props> = ({ movie, onClose }) => {
                             <option>Evan You</option>
                         </select>
                     </label>
-                    <div className={style.createLabel}>
+                    <div className={style.formLabel}>
                         Poster
-                        <div className={style.createPoster}>
+                        <div className={style.formPoster}>
                             <label htmlFor="poster">Upload a poster</label>
                             <input
                                 id="poster"

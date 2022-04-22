@@ -1,7 +1,7 @@
 import { useLocation, Outlet, Link } from '@tanstack/react-location'
 import { Logo } from '@/assets/icons/Brand'
 import { AdminListBtn } from '../Buttons/AdminListBtn'
-import style from '@/assets/styles/admin.module.scss'
+import style from './adminLayout.module.scss'
 
 export const AdminLayout: React.FC = () => {
     const path = useLocation().current.pathname

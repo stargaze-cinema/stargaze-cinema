@@ -1,5 +1,5 @@
-@use './index' as *;
-@use './animations' as anim;
+@use '../../assets/styles/index' as *;
+@use '../../assets/styles/animations' as *;
 
 .layout {
     @include flex-column;
@@ -184,7 +184,7 @@
                 }
                 .pulseAnimation {
                     background: $white-0;
-                    @include anim.pulse;
+                    @include pulse;
                 }
             }
         }
