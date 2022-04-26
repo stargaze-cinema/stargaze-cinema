@@ -19,7 +19,7 @@ variables:
 cache:
     key: $CI_COMMIT_REF_SLUG
     paths:
-        - node_modules/
+        - .pnpm-store
     policy: pull-push
 
 .load_images: &load_images

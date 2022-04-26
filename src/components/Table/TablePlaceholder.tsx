@@ -1,4 +1,4 @@
-import style from '@/assets/styles/admin.module.scss'
+import style from '@/components/Layouts/adminLayout.module.scss'
 
 interface Props {
     cols: number

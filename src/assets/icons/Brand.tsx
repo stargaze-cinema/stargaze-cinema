@@ -1,6 +1,4 @@
-import { SVGProps } from 'react'
-
-export const Logo = (props: SVGProps<SVGSVGElement>) => (
+export const Logo = (props: React.SVGProps<SVGSVGElement>) => (
     <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
         <circle cx={100} cy={100} r={95} fill="#5F7ECE" stroke="#1B3371" strokeWidth={10} />
         <path

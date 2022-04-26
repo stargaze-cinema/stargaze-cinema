@@ -10,12 +10,12 @@ export const AdminListBtn: React.FC<Props> = ({ title, path }) => {
     return (
         <>
             {path.substring(7) === title.toLowerCase() ? (
-                <button className={style.btnActive} disabled>
+                <button type="button" className={style.btnActive} disabled>
                     {title}
                 </button>
             ) : (
                 <Link to={`${title.toLowerCase()}`}>
-                    <button>{title}</button>
+                    <button type="button">{title}</button>
                 </Link>
             )}
         </>

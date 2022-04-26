@@ -1,5 +1,3 @@
-@use '../../assets/styles/index' as *;
-
 .movieDesc {
     @include flex-row;
     width: calc(100% - 120px);

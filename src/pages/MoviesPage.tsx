@@ -54,10 +54,11 @@ export const MoviesPage: React.FC = () => {
                             <Loading />
                         </button>
                     )}
-                    <button className={style.filterBtn} onClick={changeOrderMethod}>
+                    <button type="button" className={style.filterBtn} onClick={changeOrderMethod}>
                         &#8645;
                     </button>
                     <select
+                        title="order"
                         name="order"
                         className={style.filterSelect}
                         value={order}
@@ -70,7 +71,12 @@ export const MoviesPage: React.FC = () => {
                         <option value="duration">Duration</option>
                         <option value="title">Alphabetical</option>
                     </select>
-                    <select name="genre" className={style.filterSelect} defaultValue="Genre">
+                    <select
+                        title="genre"
+                        name="genre"
+                        className={style.filterSelect}
+                        defaultValue="Genre"
+                    >
                         <option disabled>Genre</option>
                         {genresQuery.data?.map(genre => {
                             return (

@@ -1,6 +1,3 @@
-@use '../../assets/styles/index' as *;
-@use '../../assets/styles/animations' as *;
-
 .layout {
     @include flex-column;
     width: 100vw;

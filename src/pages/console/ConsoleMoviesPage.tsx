@@ -5,7 +5,7 @@ import { MoviesTableHead } from '@/components/Table/MoviesTableHead'
 import { TablePlaceholder } from '@/components/Table/TablePlaceholder'
 import { CreateRecordBtn } from '@/components/Buttons/CreateRecordBtn'
 import { getMovies } from '@/services/movieService'
-import style from '@/assets/styles/admin.module.scss'
+import style from '@/components/Layouts/adminLayout.module.scss'
 
 export const ConsoleMoviesPage: React.FC = () => {
     const { showModal } = useModal()

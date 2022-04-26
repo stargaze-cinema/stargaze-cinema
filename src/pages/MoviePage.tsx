@@ -33,7 +33,7 @@ export const MoviePage: React.FC = () => {
                 <>
                     <MoviePoster title={movie.title} poster={movie.poster} year={movie.year} />
                     <div className={style.movieBody}>
-                        <MovieSelector sessions={movie.sessions} isLoading={status === 'loading'} />
+                        <MovieSelector movie={movie} isLoading={status === 'loading'} />
                         <MovieFramer frames={movie.frames} />
                         <MovieDescription movie={movie} />
                     </div>

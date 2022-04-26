@@ -1,6 +1,3 @@
-@use '../../assets/styles/index' as *;
-@use '../../assets/styles/animations' as *;
-
 .modalContainer {
     @include flex-center;
     @include fade-in(0.16s);

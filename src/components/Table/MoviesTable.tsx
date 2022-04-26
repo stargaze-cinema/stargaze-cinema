@@ -4,7 +4,7 @@ import { useQueryClient, useMutation } from 'react-query'
 import { deleteMovie } from '@/services/movieService'
 import type { Movie } from '@/types/Movie'
 import { Edit, Cross } from '@/assets/icons/Misc'
-import style from '@/assets/styles/admin.module.scss'
+import style from '@/components/Layouts/adminLayout.module.scss'
 
 export const MoviesTableRow: React.FC<{ movie: Movie }> = ({ movie }) => {
     const { showModal } = useModal()

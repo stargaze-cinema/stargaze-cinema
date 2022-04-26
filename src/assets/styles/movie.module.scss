@@ -1,6 +1,3 @@
-@use './index' as *;
-@use './animations' as *;
-
 .moviePage {
     @include flex-column;
     align-items: center;

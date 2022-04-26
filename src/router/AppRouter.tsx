@@ -2,7 +2,7 @@ import { Route, Navigate } from '@tanstack/react-location'
 import { HelmetProvider } from '@/providers/HelmetProvider'
 import { RequireAnon } from '@/providers/AuthProvider'
 import { Layout } from '@/components/Layouts/Layout'
-import { Footer } from '@/components/Footer'
+import { Footer } from '@/components/Footer/Footer'
 
 interface Router {
     layout: JSX.Element

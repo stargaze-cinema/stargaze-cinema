@@ -1,6 +1,3 @@
-@use '../../assets/styles/index' as *;
-@use '../../assets/styles/animations' as *;
-
 .selectorWrapper {
     @include flex-column;
     width: calc(100% - 120px);
