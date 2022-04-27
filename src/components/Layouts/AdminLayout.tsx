@@ -1,35 +1,46 @@
-import { useLocation, Outlet, Link } from '@tanstack/react-location'
+import { Outlet, Link, Navigate } from '@tanstack/react-location'
 import { Logo } from '@/assets/icons/Brand'
 import { AdminListBtn } from '../Buttons/AdminListBtn'
 import style from './adminLayout.module.scss'
+import { useAuth } from '@/providers/AuthProvider'
+import { hasAdminRole } from '@/services/authService'
 
 export const AdminLayout: React.FC = () => {
-    const path = useLocation().current.pathname
+    const { user, signOut } = useAuth()
 
     return (
-        <div className={style.layout}>
-            <div className={style.head}>
-                <Link to="/">
-                    <Logo width={36} />
-                </Link>
-                <span>Administration console</span>
-                <button>Log out</button>
-            </div>
-            <div className={style.body}>
-                <div className={style.sidebar}>
-                    <AdminListBtn title="Users" path={path} />
-                    <AdminListBtn title="Movies" path={path} />
-                    <AdminListBtn title="Frames" path={path} />
-                    <AdminListBtn title="Halls" path={path} />
-                    <AdminListBtn title="Sessions" path={path} />
-                    <AdminListBtn title="Tickets" path={path} />
-                    <AdminListBtn title="Genres" path={path} />
-                    <AdminListBtn title="Directors" path={path} />
-                    <AdminListBtn title="Countries" path={path} />
-                    <AdminListBtn title="Languages" path={path} />
+        <>
+            {hasAdminRole(user) ? (
+                <div className={style.layout}>
+                    <div className={style.head}>
+                        <Link to="/">
+                            <Logo width={36} />
+                        </Link>
+                        <span>Administration console</span>
+                        <button onClick={signOut}>Log out</button>
+                    </div>
+                    <div className={style.body}>
+                        <div className={style.sidebar}>
+                            <AdminListBtn title="Users" />
+                            <AdminListBtn title="Movies" />
+                            <AdminListBtn title="Frames" />
+                            <AdminListBtn title="Halls" />
+                            <AdminListBtn title="Sessions" />
+                            <AdminListBtn title="Tickets" />
+                            <AdminListBtn title="Genres" />
+                            <AdminListBtn title="Directors" />
+                            <AdminListBtn title="Countries" />
+                            <AdminListBtn title="Languages" />
+                        </div>
+                        <Outlet />
+                    </div>
                 </div>
-                <Outlet />
-            </div>
-        </div>
+            ) : (
+                <>
+                    <Navigate to="/signin" />
+                    <Outlet />
+                </>
+            )}
+        </>
     )
 }

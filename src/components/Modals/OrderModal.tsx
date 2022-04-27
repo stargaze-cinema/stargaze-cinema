@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { Modal } from './Modal'
 import { Session } from '@/types/Session'
+import { useToast } from '@/providers/ToastProvider'
+import { useAuth } from '@/providers/AuthProvider'
 import { getSession } from '@/services/sessionService'
 import { parseMinutes } from '@/utils/parseMinutes'
-import style from './orderModal.module.scss'
+import { axiosClient } from '@/utils/axiosClient'
 import { Card } from '@/assets/icons/Misc'
-import { useToast } from '@/providers/ToastProvider'
+import style from './orderModal.module.scss'
 
 interface Props {
     session: Session
@@ -15,6 +17,7 @@ interface Props {
 }
 
 export const OrderModal: React.FC<Props> = ({ session, poster, onClose }) => {
+    const { user } = useAuth()
     const toast = useToast()
     const { data } = useQuery(['session', session.id], () => getSession(session.id))
     const [creds, setCreds] = useState({
@@ -22,11 +25,23 @@ export const OrderModal: React.FC<Props> = ({ session, poster, onClose }) => {
         date: '',
         cvv: '',
     })
-    const [selectedPlace, setSelectedPlace] = useState<string | number>('Select a place')
+    const [selectedPlace, setSelectedPlace] = useState<number>()
 
     const handleOrder = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        toast.success()
+        for (const key in creds) {
+            // @ts-ignore
+            if (!creds[key]) return toast.error(`Card ${key} is missing`)
+        }
+        toast.promise({
+            promise: axiosClient.post('/tickets', {
+                place: selectedPlace,
+                user_id: user?.id,
+                session_id: data?.id,
+            }),
+            title: 'Ordering...',
+            onSuccess: onClose,
+        })
     }
 
     const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +74,7 @@ export const OrderModal: React.FC<Props> = ({ session, poster, onClose }) => {
                             )
                         })}
                     </div>
-                    {selectedPlace > 0 ? (
+                    {!!selectedPlace && selectedPlace > 0 ? (
                         <form className={style.orderForm} onSubmit={handleOrder}>
                             <div className={style.amountInfoBlock}>
                                 <div className={style.amountInfoLine}>

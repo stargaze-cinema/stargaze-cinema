@@ -1,0 +1,123 @@
+.rootPage {
+    @include flex-center;
+    flex-wrap: wrap;
+    width: calc(100% - 320px);
+    height: 100%;
+
+    .rootBtn {
+        @include flex-center;
+        @include unselectable;
+        flex-direction: column;
+        border: 4px solid $white-0;
+        border-radius: 6px;
+        padding: 10px;
+        margin-right: 10px;
+
+        h1 {
+            margin-top: 10px;
+            font-size: x-large;
+        }
+    }
+
+    .tablePage {
+        @include flex-column;
+        width: calc(100% - 320px);
+        height: 100%;
+        padding: 16px;
+
+        .tableBtns {
+            @include flex-row;
+            width: 100%;
+            min-height: 50px;
+            margin-bottom: 10px;
+
+            button {
+                @include flex-center;
+                width: fit-content;
+                height: 100%;
+                padding: 0 16px;
+                background: $brand-blue;
+                border-radius: 8px;
+                font-size: 16px;
+                font-weight: 600;
+                box-shadow: $shadow-lighten;
+                color: white;
+                svg {
+                    margin-right: 10px;
+                }
+
+                @include transition;
+                &:hover {
+                    background: darken($brand-blue, 5%);
+                }
+            }
+        }
+
+        .table {
+            display: grid;
+            width: 100%;
+            min-height: 100%;
+            overflow-y: scroll;
+            grid-template-columns: 0.4fr 1.5fr 2fr 1.1fr 0.6fr 0.6fr 0.6fr 1.2fr 1.2fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 2px;
+            grid-template-areas: '. . . . . . . . . .';
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+
+            .tableHead {
+                @include grid-center;
+                @include unselectable;
+                height: 40px;
+                background: $white-0;
+
+                &:first-child {
+                    border-top-left-radius: 8px;
+                }
+                &:last-of-type {
+                    border-top-right-radius: 8px;
+                }
+            }
+
+            .tableCell {
+                @include flex-row;
+                align-items: center;
+                justify-content: center;
+                height: 40px;
+                background: $white-1;
+                overflow: hidden;
+                &[x-name='long'] {
+                    padding: 0 8px;
+                    justify-content: flex-start;
+                }
+
+                span {
+                    white-space: nowrap;
+                }
+
+                button {
+                    width: 100%;
+                    height: 100%;
+                    svg {
+                        fill: $dark-4;
+                    }
+                    &:hover {
+                        svg {
+                            fill: $brand-blue;
+                        }
+                        &:last-child {
+                            svg {
+                                fill: $danger-red;
+                            }
+                        }
+                    }
+                }
+            }
+            .pulseAnimation {
+                background: $white-0;
+                @include pulse;
+            }
+        }
+    }
+}

@@ -1,5 +1,5 @@
 import { Route } from '@tanstack/react-location'
-import { RequireAdmin, RequireAnon } from '@/providers/AuthProvider'
+import { RequireAnon } from '@/providers/AuthProvider'
 import { AdminLayout } from '@/components/Layouts/AdminLayout'
 import { HelmetProvider } from '@/providers/HelmetProvider'
 
@@ -9,11 +9,7 @@ interface Router {
 }
 
 export const consoleRouter: Router = {
-    layout: (
-        <RequireAdmin>
-            <AdminLayout />
-        </RequireAdmin>
-    ),
+    layout: <AdminLayout />,
     routes: [
         {
             path: '/',
@@ -36,17 +32,6 @@ export const consoleRouter: Router = {
                     <RequireAnon>
                         <HelmetProvider title="Sign in" console>
                             <module.SignInPage />
-                        </HelmetProvider>
-                    </RequireAnon>
-                )),
-        },
-        {
-            path: 'signup',
-            element: () =>
-                import('@/pages/SignUpPage').then(module => (
-                    <RequireAnon>
-                        <HelmetProvider title="Sign up" console>
-                            <module.SignUpPage />
                         </HelmetProvider>
                     </RequireAnon>
                 )),

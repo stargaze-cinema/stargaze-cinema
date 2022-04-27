@@ -39,7 +39,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                 setTimeout(clear, 5000)
                 onSuccess && onSuccess(res)
             })
-            .catch((err: AxiosError) => {
+            .catch((err: AxiosError<any>) => {
                 const responseMsg = err.response?.data.message
                 const msg = Array.isArray(responseMsg)
                     ? () => {

@@ -1,15 +1,12 @@
-import { Link } from '@tanstack/react-location'
+import { Link, useLocation } from '@tanstack/react-location'
 import style from '../Layouts/adminLayout.module.scss'
 
-interface Props {
-    title: string
-    path: string
-}
+export const AdminListBtn: React.FC<{ title: string }> = ({ title }) => {
+    const path = useLocation().current.pathname
 
-export const AdminListBtn: React.FC<Props> = ({ title, path }) => {
     return (
         <>
-            {path.substring(7) === title.toLowerCase() ? (
+            {path.substring(1) === title.toLowerCase() ? (
                 <button type="button" className={style.btnActive} disabled>
                     {title}
                 </button>
