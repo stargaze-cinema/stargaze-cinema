@@ -1,29 +1,45 @@
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useModal } from '@/providers/ModalProvider'
-import { MoviesTableRow } from '@/components/Table/MoviesTable'
-import { MoviesTableHead } from '@/components/Table/MoviesTableHead'
-import { TablePlaceholder } from '@/components/Table/TablePlaceholder'
+import { MoviesTable } from '@/components/Console/MoviesTable'
 import { CreateRecordBtn } from '@/components/Buttons/CreateRecordBtn'
 import { getMovies } from '@/services/movieService'
+import { Paginator } from '@/components/Paginator/Paginator'
+import { useDebounce } from '@/hooks/useDebouce'
 import style from '@/assets/styles/console.module.scss'
 
 export const ConsoleMoviesPage: React.FC = () => {
     const { showModal } = useModal()
-    const { data, status } = useQuery(['movies'], () => getMovies())
+    const [search, setSearch] = useState('')
+    const debouncedSearch = useDebounce(search, 800)
+    const [page, setPage] = useState(1)
+    const query = useQuery(['movies', page, debouncedSearch], () => {
+        const params = new URLSearchParams()
+        params.append('title', debouncedSearch)
+        params.append('order', 'id')
+        params.append('orderMethod', 'ASC')
+        params.append('page', page.toString())
+
+        return getMovies(params)
+    })
 
     return (
         <div className={style.tablePage}>
             <div className={style.tableBtns}>
-                <CreateRecordBtn onClick={() => showModal('CreateMovieModal')} />
+                <div className={style.filterSearch}>
+                    <input
+                        type="text"
+                        value={search}
+                        placeholder="Search for a title..."
+                        onChange={({ target }) => setSearch(target.value)}
+                    />
+                </div>
+                <CreateRecordBtn onClick={() => showModal('MovieFormModal')} />
             </div>
-            <div className={style.table}>
-                <MoviesTableHead />
-                {status === 'loading' ? (
-                    <TablePlaceholder cols={10} rows={10} />
-                ) : (
-                    data?.data.map(movie => <MoviesTableRow key={movie.id} movie={movie} />)
-                )}
-            </div>
+            <MoviesTable query={query} />
+            {query.status === 'success' && (
+                <Paginator paginator={query.data?.paginator} setPage={setPage} />
+            )}
         </div>
     )
 }

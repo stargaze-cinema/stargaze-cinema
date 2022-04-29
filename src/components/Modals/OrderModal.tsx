@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { Modal } from './Modal'
-import { Session } from '@/types/Session'
 import { useToast } from '@/providers/ToastProvider'
 import { useAuth } from '@/providers/AuthProvider'
 import { getSession } from '@/services/sessionService'
 import { parseMinutes } from '@/utils/parseMinutes'
 import { axiosClient } from '@/utils/axiosClient'
 import { Card } from '@/assets/icons/Misc'
+import type { Session } from '@/types/Session'
 import style from './orderModal.module.scss'
 
 interface Props {

@@ -1,6 +1,6 @@
 import { Pagination, Navigation } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Frame } from '@/types/Frame'
+import type { Frame } from '@/types/Frame'
 import style from './movieFramer.module.scss'
 import 'swiper/css'
 import 'swiper/css/pagination'

@@ -16,7 +16,7 @@ export const MoviesPage: React.FC = () => {
     const [search, setSearch] = useState('')
     const [method, setMethod] = useState<Method>('DESC')
     const [order, setOrder] = useState<Order>('created_at')
-    const [page, setPage] = useState<number>(1)
+    const [page, setPage] = useState(1)
     const debouncedSearch = useDebounce(search, 800)
     const moviesQuery = useQuery(['movies', debouncedSearch, order, method, page], () => {
         const params = new URLSearchParams()

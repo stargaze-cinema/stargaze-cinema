@@ -1,9 +1,10 @@
 import { PlusCircle } from '@/assets/icons/Misc'
+import style from './createRecordBtn.module.scss'
 
 export const CreateRecordBtn: React.FC<{ onClick: () => void }> = ({ onClick }) => {
     return (
-        <button type="button" onClick={onClick}>
-            <PlusCircle width={26} fill="white" />
+        <button className={style.createRecord} type="button" onClick={onClick}>
+            <PlusCircle width={22} fill="white" />
             Create record
         </button>
     )

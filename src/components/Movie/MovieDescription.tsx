@@ -1,6 +1,6 @@
 import { MovieInfo } from '@/components/Movie/MovieInfo'
 import { parseMinutes } from '@/utils/parseMinutes'
-import { Movie } from '@/types/Movie'
+import type { Movie } from '@/types/Movie'
 import style from './movieDescription.module.scss'
 
 interface Props {

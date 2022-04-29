@@ -12,10 +12,12 @@
         border: 1px solid $dark-8;
         padding: 0 8px;
         margin-top: 4px;
+
         @include transition;
         &:hover {
             border: 1px solid $white-0;
         }
+
         &:focus {
             border: 1px solid $brand-blue;
         }

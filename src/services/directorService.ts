@@ -8,13 +8,13 @@ export const getDirectors = async () => {
     return parseDates(res.data) as Director[]
 }
 
-export const getDirector = async (id: number | string) => {
+export const getDirector = async (id: number) => {
     const res = await axiosClient.get('/directors/' + id)
 
     return parseDates(res.data) as Director
 }
 
-export const createDirector = async (data: FormData) => {
+export const createDirector = async (data: object) => {
     const res = await axiosClient.post('/directors', data)
 
     return parseDates(res.data) as Director

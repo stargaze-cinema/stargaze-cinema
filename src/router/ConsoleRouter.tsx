@@ -26,6 +26,51 @@ export const consoleRouter: Router = {
                 )),
         },
         {
+            path: 'sessions',
+            element: () =>
+                import('@/pages/console/ConsoleSessionsPage').then(module => (
+                    <HelmetProvider title="Sessions" console>
+                        <module.ConsoleSessionsPage />
+                    </HelmetProvider>
+                )),
+        },
+        {
+            path: 'tickets',
+            element: () =>
+                import('@/pages/console/ConsoleTicketsPage').then(module => (
+                    <HelmetProvider title="Tickets" console>
+                        <module.ConsoleTicketsPage />
+                    </HelmetProvider>
+                )),
+        },
+        {
+            path: 'halls',
+            element: () =>
+                import('@/pages/console/ConsoleHallsPage').then(module => (
+                    <HelmetProvider title="Halls" console>
+                        <module.ConsoleHallsPage />
+                    </HelmetProvider>
+                )),
+        },
+        {
+            path: 'genres',
+            element: () =>
+                import('@/pages/console/ConsoleGenresPage').then(module => (
+                    <HelmetProvider title="Genres" console>
+                        <module.ConsoleGenresPage />
+                    </HelmetProvider>
+                )),
+        },
+        {
+            path: 'directors',
+            element: () =>
+                import('@/pages/console/ConsoleDirectorsPage').then(module => (
+                    <HelmetProvider title="Directors" console>
+                        <module.ConsoleDirectorsPage />
+                    </HelmetProvider>
+                )),
+        },
+        {
             path: 'signin',
             element: () =>
                 import('@/pages/SignInPage').then(module => (

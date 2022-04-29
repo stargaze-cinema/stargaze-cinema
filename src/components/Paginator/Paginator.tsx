@@ -16,11 +16,15 @@ interface Props {
 
 export const Paginator: React.FC<Props> = ({ paginator, setPage }) => {
     const pages = useMemo(() => {
-        const arr: Array<JSX.Element> = []
+        const arr: JSX.Element[] = []
         for (let i = 1; i <= paginator.totalPages; i++) {
             if (i == paginator.currentPage) {
                 arr.push(<span key={i}>{paginator.currentPage}</span>)
                 continue
+            }
+            if (i >= 10) {
+                arr.push(<span key={i}>...</span>)
+                break
             }
             arr.push(
                 <button key={i} onClick={() => setPage(i)}>

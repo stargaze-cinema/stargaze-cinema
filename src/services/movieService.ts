@@ -1,18 +1,6 @@
 import { axiosClient } from '@/utils/axiosClient'
 import { parseDates } from '@/utils/parseDates'
-import type { Movie, UpdateMovie } from '@/types/Movie'
-
-interface PaginatedMovies {
-    paginator: {
-        currentPage: number
-        perPage: number
-        totalPages: number
-        totalItems: number
-        nextPage: number
-        prevPage: number
-    }
-    data: Movie[]
-}
+import type { Movie, UpdateMovie, PaginatedMovies } from '@/types/Movie'
 
 export const getMovies = async (params?: URLSearchParams) => {
     const res = await axiosClient.get('/movies', { params })

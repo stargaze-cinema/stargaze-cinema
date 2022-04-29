@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-location'
-import { Movie } from '@/types/Movie'
+import type { Movie } from '@/types/Movie'
 import style from './movieBanner.module.scss'
 
 interface Props {

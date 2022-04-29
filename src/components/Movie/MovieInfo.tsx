@@ -1,15 +1,15 @@
 import { useMemo } from 'react'
-import { Entity } from '@/types/Entity'
+import type { Entity } from '@/types/Entity'
 import style from './movieInfo.module.scss'
 
 interface Props {
     title: string
-    content: string | number | Array<Entity>
+    content: string | number | Entity[]
 }
 
 export const MovieInfo: React.FC<Props> = ({ title, content }) => {
     const parsedContent = useMemo(() => {
-        if (content instanceof Array) {
+        if (Array.isArray(content)) {
             if (content.length > 1) return content.map(item => item.name).join(', ')
             return content[0].name
         }

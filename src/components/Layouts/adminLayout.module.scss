@@ -27,11 +27,11 @@
             font-size: 12px;
         }
     }
+
     .body {
         @include flex-row;
         width: 100%;
         height: calc(100% - 64px);
-        align-items: center;
 
         .sidebar {
             @include flex-column;

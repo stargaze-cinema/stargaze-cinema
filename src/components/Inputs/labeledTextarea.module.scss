@@ -4,6 +4,7 @@
     font-size: medium;
     margin-top: 6px;
     margin-bottom: 10px;
+
     textarea {
         resize: vertical;
         width: 100%;
@@ -13,6 +14,7 @@
         padding: 8px;
         font-size: inherit;
         background: $white-1;
+
         @include transition;
         &:focus {
             border-color: $brand-blue;

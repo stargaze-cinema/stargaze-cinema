@@ -3,8 +3,8 @@ import { useNavigate } from '@tanstack/react-location'
 import dayjs from 'dayjs'
 import { useModal } from '@/providers/ModalProvider'
 import { useAuth } from '@/providers/AuthProvider'
-import { Movie } from '@/types/Movie'
-import { Session } from '@/types/Session'
+import type { Movie } from '@/types/Movie'
+import type { Session } from '@/types/Session'
 import style from './movieSelector.module.scss'
 
 interface Props {

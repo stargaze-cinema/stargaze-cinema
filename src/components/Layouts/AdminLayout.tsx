@@ -21,16 +21,12 @@ export const AdminLayout: React.FC = () => {
                     </div>
                     <div className={style.body}>
                         <div className={style.sidebar}>
-                            <AdminListBtn title="Users" />
                             <AdminListBtn title="Movies" />
-                            <AdminListBtn title="Frames" />
-                            <AdminListBtn title="Halls" />
                             <AdminListBtn title="Sessions" />
                             <AdminListBtn title="Tickets" />
+                            <AdminListBtn title="Halls" />
                             <AdminListBtn title="Genres" />
                             <AdminListBtn title="Directors" />
-                            <AdminListBtn title="Countries" />
-                            <AdminListBtn title="Languages" />
                         </div>
                         <Outlet />
                     </div>

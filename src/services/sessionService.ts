@@ -8,13 +8,13 @@ export const getSessions = async () => {
     return parseDates(res.data) as Session[]
 }
 
-export const getSession = async (id: number | string) => {
+export const getSession = async (id: number) => {
     const res = await axiosClient.get('/sessions/' + id)
 
     return parseDates(res.data) as Session
 }
 
-export const createSession = async (data: FormData) => {
+export const createSession = async (data: object) => {
     const res = await axiosClient.post('/sessions', data)
 
     return parseDates(res.data) as Session
