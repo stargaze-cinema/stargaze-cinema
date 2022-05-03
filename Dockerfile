@@ -1,6 +1,7 @@
 FROM node:18.0-alpine
 
 USER root
+
 WORKDIR /app
 
 RUN apk -U add --no-cache git
@@ -13,4 +14,8 @@ RUN corepack enable \
     && pnpm i --frozen-lockfile \
     && pnpm rb esbuild
 
+COPY . .
+
 EXPOSE 3000
+
+CMD [ "pnpm", "start:production" ]

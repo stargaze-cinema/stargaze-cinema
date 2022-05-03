@@ -35,7 +35,7 @@ Build images:
     tags:
         - r2
     script:
-        - docker build --pull -f Dockerfile -t $APP_IMAGE .
+        - docker build -t $APP_IMAGE .
         - docker save -o node.tar $APP_IMAGE
     needs: []
     artifacts:
@@ -58,8 +58,9 @@ Release images:
 
 Deploy app:
     stage: deploy
-    when: manual
+    image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
     script:
-        - deploy.sh
+        - aws s3
+    when: manual
     only:
         - master

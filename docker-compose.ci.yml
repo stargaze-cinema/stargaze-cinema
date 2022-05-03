@@ -1,3 +1,0 @@
-services:
-    node:
-        image: $APP_IMAGE
