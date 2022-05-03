@@ -1,11 +1,11 @@
 import { Outlet, Link, Navigate } from '@tanstack/react-location'
-import { Logo } from '@/assets/icons/Brand'
-import { AdminListBtn } from '../Buttons/AdminListBtn'
-import style from './adminLayout.module.scss'
 import { useAuth } from '@/providers/AuthProvider'
 import { hasAdminRole } from '@/services/authService'
+import { ConsoleBtn } from '../Buttons/ConsoleBtn'
+import { Logo } from '@/assets/icons/Brand'
+import style from './consoleLayout.module.scss'
 
-export const AdminLayout: React.FC = () => {
+export const ConsoleLayout: React.FC = () => {
     const { user, signOut } = useAuth()
 
     return (
@@ -21,12 +21,12 @@ export const AdminLayout: React.FC = () => {
                     </div>
                     <div className={style.body}>
                         <div className={style.sidebar}>
-                            <AdminListBtn title="Movies" />
-                            <AdminListBtn title="Sessions" />
-                            <AdminListBtn title="Tickets" />
-                            <AdminListBtn title="Halls" />
-                            <AdminListBtn title="Genres" />
-                            <AdminListBtn title="Directors" />
+                            <ConsoleBtn title="Movies" />
+                            <ConsoleBtn title="Sessions" />
+                            <ConsoleBtn title="Tickets" />
+                            <ConsoleBtn title="Halls" />
+                            <ConsoleBtn title="Genres" />
+                            <ConsoleBtn title="Directors" />
                         </div>
                         <Outlet />
                     </div>

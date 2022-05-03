@@ -5,6 +5,7 @@ import style from './layout.module.scss'
 
 export const Layout: React.FC = () => {
     const { user } = useAuth()
+
     return (
         <>
             <div className={style.layout}>

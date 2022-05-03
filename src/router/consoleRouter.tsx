@@ -1,6 +1,6 @@
 import { Route } from '@tanstack/react-location'
 import { RequireAnon } from '@/providers/AuthProvider'
-import { AdminLayout } from '@/components/Layouts/AdminLayout'
+import { ConsoleLayout } from '@/components/Layouts/ConsoleLayout'
 import { HelmetProvider } from '@/providers/HelmetProvider'
 
 interface Router {
@@ -9,7 +9,7 @@ interface Router {
 }
 
 export const consoleRouter: Router = {
-    layout: <AdminLayout />,
+    layout: <ConsoleLayout />,
     routes: [
         {
             path: '/',
