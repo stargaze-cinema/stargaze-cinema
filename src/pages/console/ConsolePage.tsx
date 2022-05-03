@@ -1,5 +1,5 @@
 import { Logo } from '@/assets/icons/Brand'
-import style from '@/assets/styles/console.module.scss'
+import style from './console.module.scss'
 
 export const ConsolePage: React.FC = () => {
     return (

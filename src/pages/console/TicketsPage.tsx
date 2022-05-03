@@ -3,9 +3,9 @@ import { useModal } from '@/providers/ModalProvider'
 import { TicketsTable } from '@/components/Console/TicketsTable'
 import { CreateRecordBtn } from '@/components/Buttons/CreateRecordBtn'
 import { getTickets } from '@/services/ticketService'
-import style from '@/assets/styles/console.module.scss'
+import style from './console.module.scss'
 
-export const ConsoleTicketsPage: React.FC = () => {
+export const TicketsPage: React.FC = () => {
     const { showModal } = useModal()
     const query = useQuery(['tickets'], getTickets)
 

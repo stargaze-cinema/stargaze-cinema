@@ -6,7 +6,7 @@ import { useToast } from '@/providers/ToastProvider'
 import { useAuth } from '@/providers/AuthProvider'
 import { LabeledInput } from '@/components/Inputs/LabeledInput'
 import { InputSubmit } from '@/components/Inputs/InputSubmit'
-import style from '@/assets/styles/auth.module.scss'
+import style from './auth.module.scss'
 
 export const SignInPage: React.FC = () => {
     const { signIn } = useAuth()

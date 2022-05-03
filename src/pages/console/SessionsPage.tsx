@@ -3,9 +3,9 @@ import { useModal } from '@/providers/ModalProvider'
 import { SessionsTable } from '@/components/Console/SessionsTable'
 import { CreateRecordBtn } from '@/components/Buttons/CreateRecordBtn'
 import { getSessions } from '@/services/sessionService'
-import style from '@/assets/styles/console.module.scss'
+import style from './console.module.scss'
 
-export const ConsoleSessionsPage: React.FC = () => {
+export const SessionsPage: React.FC = () => {
     const { showModal } = useModal()
     const query = useQuery(['sessions'], getSessions)
 

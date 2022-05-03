@@ -4,7 +4,7 @@ import { Link, useNavigate } from '@tanstack/react-location'
 import { useToast } from '@/providers/ToastProvider'
 import { LabeledInput } from '@/components/Inputs/LabeledInput'
 import { InputSubmit } from '@/components/Inputs/InputSubmit'
-import style from '@/assets/styles/auth.module.scss'
+import style from './auth.module.scss'
 
 export const SignUpPage: React.FC = () => {
     const navigate = useNavigate()

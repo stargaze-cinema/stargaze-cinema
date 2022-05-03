@@ -7,7 +7,7 @@ import { MovieFramer } from '@/components/Movie/MovieFramer'
 import { MoviePoster } from '@/components/Movie/MoviePoster'
 import { getMovie } from '@/services/movieService'
 import type { Movie } from '@/types/Movie'
-import style from '@/assets/styles/movie.module.scss'
+import style from './movie.module.scss'
 
 type Search = MakeGenerics<{
     Search: {

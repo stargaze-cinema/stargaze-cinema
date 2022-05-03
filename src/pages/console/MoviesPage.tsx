@@ -6,9 +6,9 @@ import { CreateRecordBtn } from '@/components/Buttons/CreateRecordBtn'
 import { getMovies } from '@/services/movieService'
 import { Paginator } from '@/components/Paginator/Paginator'
 import { useDebounce } from '@/hooks/useDebouce'
-import style from '@/assets/styles/console.module.scss'
+import style from './console.module.scss'
 
-export const ConsoleMoviesPage: React.FC = () => {
+export const MoviesPage: React.FC = () => {
     const { showModal } = useModal()
     const [search, setSearch] = useState('')
     const debouncedSearch = useDebounce(search, 800)

@@ -14,66 +14,66 @@ export const consoleRouter: Router = {
         {
             path: '/',
             element: () =>
-                import('@/pages/console/ConsolePage').then(module => <module.ConsolePage />),
+                import('@/pages/Console/ConsolePage').then(module => <module.ConsolePage />),
         },
         {
             path: 'movies',
             element: () =>
-                import('@/pages/console/ConsoleMoviesPage').then(module => (
+                import('@/pages/Console/MoviesPage').then(module => (
                     <HelmetProvider title="Movies" console>
-                        <module.ConsoleMoviesPage />
+                        <module.MoviesPage />
                     </HelmetProvider>
                 )),
         },
         {
             path: 'sessions',
             element: () =>
-                import('@/pages/console/ConsoleSessionsPage').then(module => (
+                import('@/pages/Console/SessionsPage').then(module => (
                     <HelmetProvider title="Sessions" console>
-                        <module.ConsoleSessionsPage />
+                        <module.SessionsPage />
                     </HelmetProvider>
                 )),
         },
         {
             path: 'tickets',
             element: () =>
-                import('@/pages/console/ConsoleTicketsPage').then(module => (
+                import('@/pages/Console/TicketsPage').then(module => (
                     <HelmetProvider title="Tickets" console>
-                        <module.ConsoleTicketsPage />
+                        <module.TicketsPage />
                     </HelmetProvider>
                 )),
         },
         {
             path: 'halls',
             element: () =>
-                import('@/pages/console/ConsoleHallsPage').then(module => (
+                import('@/pages/Console/HallsPage').then(module => (
                     <HelmetProvider title="Halls" console>
-                        <module.ConsoleHallsPage />
+                        <module.HallsPage />
                     </HelmetProvider>
                 )),
         },
         {
             path: 'genres',
             element: () =>
-                import('@/pages/console/ConsoleGenresPage').then(module => (
+                import('@/pages/Console/GenresPage').then(module => (
                     <HelmetProvider title="Genres" console>
-                        <module.ConsoleGenresPage />
+                        <module.GenresPage />
                     </HelmetProvider>
                 )),
         },
         {
             path: 'directors',
             element: () =>
-                import('@/pages/console/ConsoleDirectorsPage').then(module => (
+                import('@/pages/Console/DirectorsPage').then(module => (
                     <HelmetProvider title="Directors" console>
-                        <module.ConsoleDirectorsPage />
+                        <module.DirectorsPage />
                     </HelmetProvider>
                 )),
         },
         {
             path: 'signin',
             element: () =>
-                import('@/pages/SignInPage').then(module => (
+                import('@/pages/Auth/SignInPage').then(module => (
                     <RequireAnon>
                         <HelmetProvider title="Sign in" console>
                             <module.SignInPage />
@@ -84,7 +84,7 @@ export const consoleRouter: Router = {
         {
             path: '*',
             element: () =>
-                import('@/pages/console/ConsolePage').then(module => <module.ConsolePage />),
+                import('@/pages/Console/ConsolePage').then(module => <module.ConsolePage />),
         },
     ],
 }

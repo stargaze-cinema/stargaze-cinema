@@ -22,7 +22,7 @@ export const appRouter: Router = {
                 {
                     path: '/',
                     element: () =>
-                        import('@/pages/MoviesPage').then(module => (
+                        import('@/pages/Movies/MoviesPage').then(module => (
                             <HelmetProvider title="Movies">
                                 <module.MoviesPage />
                                 <Footer />
@@ -32,7 +32,7 @@ export const appRouter: Router = {
                 {
                     path: ':movie',
                     element: () =>
-                        import('@/pages/MoviePage').then(module => (
+                        import('@/pages/Movie/MoviePage').then(module => (
                             <HelmetProvider title="Movie">
                                 <module.MoviePage />
                                 <Footer />
@@ -44,7 +44,7 @@ export const appRouter: Router = {
         {
             path: 'signin',
             element: () =>
-                import('@/pages/SignInPage').then(module => (
+                import('@/pages/Auth/SignInPage').then(module => (
                     <HelmetProvider title="Sign in">
                         <module.SignInPage />
                     </HelmetProvider>
@@ -53,7 +53,7 @@ export const appRouter: Router = {
         {
             path: 'signup',
             element: () =>
-                import('@/pages/SignUpPage').then(module => (
+                import('@/pages/Auth/SignUpPage').then(module => (
                     <RequireAnon>
                         <HelmetProvider title="Sign up">
                             <module.SignUpPage />

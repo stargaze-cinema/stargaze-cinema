@@ -7,7 +7,7 @@ import { Loading } from '@/assets/icons/Misc'
 import { Paginator } from '@/components/Paginator/Paginator'
 import { getMovies } from '@/services/movieService'
 import { getGenres } from '@/services/genreService'
-import style from '@/assets/styles/movies.module.scss'
+import style from './movies.module.scss'
 
 type Method = 'ASC' | 'DESC'
 type Order = 'title' | 'year' | 'price' | 'duration' | 'created_at'

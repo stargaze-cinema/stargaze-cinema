@@ -3,9 +3,9 @@ import { useModal } from '@/providers/ModalProvider'
 import { GenresTable } from '@/components/Console/GenresTable'
 import { CreateRecordBtn } from '@/components/Buttons/CreateRecordBtn'
 import { getGenres } from '@/services/genreService'
-import style from '@/assets/styles/console.module.scss'
+import style from './console.module.scss'
 
-export const ConsoleGenresPage: React.FC = () => {
+export const GenresPage: React.FC = () => {
     const { showModal } = useModal()
     const query = useQuery(['genres'], getGenres)
 
