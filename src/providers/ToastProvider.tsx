@@ -122,7 +122,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                         </div>
                     </div>
                 ),
-                document.getElementById('root') as Element
+                document.getElementById('root')!
             )}
         </>
     )

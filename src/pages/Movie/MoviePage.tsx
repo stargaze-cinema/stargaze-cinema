@@ -18,7 +18,7 @@ type Search = MakeGenerics<{
 export const MoviePage: React.FC = () => {
     const { params } = useMatch()
     const { prefetch } = useSearch<Search>()
-    const { data, status } = useQuery([params.movie], () => getMovie(params.movie as string))
+    const { data, status } = useQuery([params.movie], () => getMovie(params.movie))
     const [movie, setMovie] = useState<Movie>(prefetch as any)
 
     useEffect(() => {

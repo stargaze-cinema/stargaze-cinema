@@ -37,17 +37,11 @@ export const Paginator: React.FC<Props> = ({ paginator, setPage }) => {
 
     return (
         <div className={style.paginator}>
-            <button
-                disabled={!paginator.prevPage}
-                onClick={() => setPage(paginator.prevPage as number)}
-            >
+            <button disabled={!paginator.prevPage} onClick={() => setPage(paginator.prevPage!)}>
                 <Arrow width={10} />
             </button>
             {pages}
-            <button
-                disabled={!paginator.nextPage}
-                onClick={() => setPage(paginator.nextPage as number)}
-            >
+            <button disabled={!paginator.nextPage} onClick={() => setPage(paginator.nextPage!)}>
                 <Arrow width={10} style={{ transform: 'rotateY(180deg)' }} />
             </button>
         </div>

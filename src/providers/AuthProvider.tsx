@@ -23,7 +23,7 @@ interface SignOut {
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(
-        Cookies.get('user') && JSON.parse(Cookies.get('user') as string)
+        Cookies.get('user') && JSON.parse(Cookies.get('user')!)
     )
 
     const signIn: SignIn = (user, token) => {

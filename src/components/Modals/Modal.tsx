@@ -41,7 +41,7 @@ export const Modal: React.FC<Props> = ({ title, isOpen, children, onClose }) => 
                 </div>
             </div>
         ),
-        document.getElementById('root') as Element
+        document.getElementById('root')!
     )
 }
 
