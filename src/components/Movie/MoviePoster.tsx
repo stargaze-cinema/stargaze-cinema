@@ -6,13 +6,11 @@ interface Props {
     year: number
 }
 
-export const MoviePoster: React.FC<Props> = ({ poster, title, year }) => {
-    return (
-        <div className={style.posterBanner}>
-            <img className={style.posterImage} src={poster} alt="poster" />
-            <h1 className={style.posterContainer}>
-                {title} ({year})
-            </h1>
-        </div>
-    )
-}
+export const MoviePoster: React.FC<Props> = ({ poster, title, year }) => (
+    <div className={style.posterBanner}>
+        <img className={style.posterImage} src={poster} alt="poster" />
+        <h1 className={style.posterContainer}>
+            {title} ({year})
+        </h1>
+    </div>
+)

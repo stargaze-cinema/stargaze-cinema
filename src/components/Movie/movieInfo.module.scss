@@ -1,5 +1,3 @@
-@use '../../assets/styles/index' as *;
-
 .movieInfoBlock {
     @include flex-column;
     width: fit-content;

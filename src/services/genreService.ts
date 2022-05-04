@@ -8,13 +8,13 @@ export const getGenres = async () => {
     return parseDates(res.data) as Genre[]
 }
 
-export const getGenre = async (id: number | string) => {
+export const getGenre = async (id: number) => {
     const res = await axiosClient.get('/genres/' + id)
 
     return parseDates(res.data) as Genre
 }
 
-export const createGenre = async (data: FormData) => {
+export const createGenre = async (data: object) => {
     const res = await axiosClient.post('/genres', data)
 
     return parseDates(res.data) as Genre

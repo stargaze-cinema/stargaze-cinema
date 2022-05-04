@@ -35,3 +35,15 @@ export type UpdateMovie = {
     genre_ids?: number[]
     director_ids?: number[]
 }
+
+export interface PaginatedMovies {
+    paginator: {
+        currentPage: number
+        perPage: number
+        totalPages: number
+        totalItems: number
+        nextPage: number
+        prevPage: number
+    }
+    data: Movie[]
+}

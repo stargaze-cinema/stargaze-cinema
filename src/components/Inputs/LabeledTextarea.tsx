@@ -1,3 +1,4 @@
+import { capitalizeFirstLetter } from '@/utils/capitalizeFirstChar'
 import style from './labeledTextarea.module.scss'
 
 interface Props {
@@ -8,16 +9,14 @@ interface Props {
     required?: boolean
 }
 
-export const LabeledTextarea: React.FC<Props> = props => {
-    return (
-        <label className={style.labeledTextarea}>
-            {props.label}
-            <textarea name={props.name} value={props.value} onChange={props.onChange}></textarea>
-        </label>
-    )
-}
+export const LabeledTextarea: React.FC<Props> = props => (
+    <label className={style.labeledTextarea}>
+        {props.label || capitalizeFirstLetter(props.name)}
+        <textarea name={props.name} value={props.value} onChange={props.onChange}></textarea>
+    </label>
+)
 
 LabeledTextarea.defaultProps = {
-    label: 'Your text',
+    label: undefined,
     required: false,
 }

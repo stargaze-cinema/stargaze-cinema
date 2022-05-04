@@ -5,7 +5,3 @@ export interface Country extends Entity {
     name: string
     movies: Movie[]
 }
-
-export type UpdateCountry = {
-    name: string
-}

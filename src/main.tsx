@@ -19,7 +19,7 @@ const getRouter = () => {
     return router[currentSubdomain] || router['app']
 }
 
-createRoot(document.getElementById('root') as Element).render(
+createRoot(document.getElementById('root')!).render(
     <AppProvider>
         <Router location={location} routes={getRouter().routes}>
             {getRouter().layout}

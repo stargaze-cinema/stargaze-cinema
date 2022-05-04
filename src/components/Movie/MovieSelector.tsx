@@ -1,11 +1,14 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from '@tanstack/react-location'
 import dayjs from 'dayjs'
 import { useModal } from '@/providers/ModalProvider'
-import { Session } from '@/types/Session'
+import { useAuth } from '@/providers/AuthProvider'
+import type { Movie } from '@/types/Movie'
+import type { Session } from '@/types/Session'
 import style from './movieSelector.module.scss'
 
 interface Props {
-    sessions: Session[]
+    movie: Movie
     isLoading: boolean
 }
 
@@ -14,11 +17,13 @@ interface Selector {
     sessions: Session[]
 }
 
-export const MovieSelector: React.FC<Props> = ({ sessions, isLoading }) => {
+export const MovieSelector: React.FC<Props> = ({ movie, isLoading }) => {
+    const { user } = useAuth()
     const { showModal } = useModal()
+    const navigate = useNavigate()
     const [selectedDate, setSelectedDate] = useState(new Date())
     const selector: Selector = useMemo(() => {
-        const sortedSessions = sessions.sort((a: any, b: any) => a.begin_at - b.begin_at)
+        const sortedSessions = movie.sessions.sort((a: any, b: any) => a.begin_at - b.begin_at)
 
         return {
             dates: sortedSessions.filter((item, pos, self) =>
@@ -26,13 +31,18 @@ export const MovieSelector: React.FC<Props> = ({ sessions, isLoading }) => {
             ),
             sessions: sortedSessions,
         }
-    }, [sessions])
+    }, [movie.sessions])
+
+    const onClickSession = (session: Session) =>
+        user
+            ? showModal('OrderModal', { session, poster: movie.poster })
+            : navigate({ to: '/signin' })
 
     return (
         <>
             {isLoading ? (
                 <div className={`${style.selectorWrapper} ${style.pulseAnimation}`} />
-            ) : sessions.length === 0 ? (
+            ) : movie.sessions.length === 0 ? (
                 <div className={style.selectorWrapper}>
                     <span className={style.selectorNotFound}>No sessions available.</span>
                 </div>
@@ -61,7 +71,7 @@ export const MovieSelector: React.FC<Props> = ({ sessions, isLoading }) => {
                                         <button
                                             key={session.id}
                                             className={style.sessionBtn}
-                                            onClick={() => showModal('OrderModal', { session })}
+                                            onClick={() => onClickSession(session)}
                                         >
                                             {dayjs(session.begin_at).format('HH:mm')}
                                         </button>

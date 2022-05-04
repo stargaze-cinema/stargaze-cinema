@@ -1,10 +1,11 @@
 import { Link, Outlet } from '@tanstack/react-location'
 import { Logo } from '@/assets/icons/Brand'
 import { useAuth } from '@/providers/AuthProvider'
-import style from '@/assets/styles/layout.module.scss'
+import style from './layout.module.scss'
 
 export const Layout: React.FC = () => {
     const { user } = useAuth()
+
     return (
         <>
             <div className={style.layout}>

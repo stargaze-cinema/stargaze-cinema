@@ -7,9 +7,3 @@ export interface Language extends Entity {
     native_name: string
     movies: Movie[]
 }
-
-export type UpdateLanguage = {
-    name?: string
-    code?: string
-    native_name?: string
-}

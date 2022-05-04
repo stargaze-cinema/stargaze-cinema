@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Cross } from '@/assets/icons/Misc'
-import style from '@/assets/styles/modal.module.scss'
+import style from './modal.module.scss'
 
 interface Props {
     title: string
@@ -41,7 +41,7 @@ export const Modal: React.FC<Props> = ({ title, isOpen, children, onClose }) => 
                 </div>
             </div>
         ),
-        document.getElementById('root') as Element
+        document.getElementById('root')!
     )
 }
 

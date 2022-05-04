@@ -7,7 +7,7 @@ export const getUserCookie = (): User | null => {
     return JSON.parse(cookie) as User
 }
 
-export const hasAdminRole = (user: User): boolean => {
+export const hasAdminRole = (user: User | null): boolean => {
     if (!user) return false
     return user.roles.includes('Administrator')
 }

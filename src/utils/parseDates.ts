@@ -1,4 +1,4 @@
-import { Entity } from '@/types/Entity'
+import type { Entity } from '@/types/Entity'
 
 interface Parser {
     (data: Entity | Entity[]): Entity | Entity[]
@@ -13,7 +13,7 @@ const parseInObject = (entity: any) => {
             entity[key] = new Date(entity[key])
         } else if (isEntity(entity[key])) {
             entity[key] = parseInObject(entity[key])
-        } else if (entity[key] instanceof Array) {
+        } else if (Array.isArray(entity[key])) {
             entity[key] = parseInArray(entity[key])
         }
     })
@@ -24,4 +24,4 @@ const parseInArray = (arr: Entity[]) =>
     arr.length > 0 ? arr.map(item => parseInObject(item)) : arr
 
 export const parseDates: Parser = data =>
-    data instanceof Array ? parseInArray(data) : parseInObject(data)
+    Array.isArray(data) ? parseInArray(data) : parseInObject(data)

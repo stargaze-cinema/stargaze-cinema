@@ -1,5 +1,3 @@
-@use '../../assets/styles/index' as *;
-
 .paginator {
     @include flex-row;
     @include unselectable;

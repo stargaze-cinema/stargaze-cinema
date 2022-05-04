@@ -1,5 +1,5 @@
 import { Logo } from '@/assets/icons/Brand'
-import style from '@/assets/styles/admin.module.scss'
+import style from './console.module.scss'
 
 export const ConsolePage: React.FC = () => {
     return (
@@ -8,7 +8,7 @@ export const ConsolePage: React.FC = () => {
                 <Logo width={100} />
                 <h1 style={{ textAlign: 'center' }}>
                     Stargaze Cinema Console <br />
-                    v1.0
+                    v1.5
                 </h1>
             </div>
         </div>

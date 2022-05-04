@@ -1,5 +1,3 @@
-@use '../../assets/styles/index' as *;
-
 .inputSumbit {
     width: 100%;
     height: 40px;
@@ -9,10 +7,12 @@
     border-radius: 6px;
     font-size: 15px;
     cursor: pointer;
+
     @include transition;
     &:hover {
         background: darken($brand-blue, 4%);
     }
+
     &:active {
         background: darken($brand-blue, 10%);
     }
