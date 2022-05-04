@@ -10,7 +10,7 @@
         "start:development": "vite dev",
         "start:production": "pnpm run build && pnpm start",
         "start": "vite preview",
-        "build": "pnpm dlx lint-staged --debug && vite build",
+        "build": "pnpm typecheck && pnpm lint && vite build",
         "typecheck": "tsc --noEmit -p tsconfig.json",
         "format": "prettier --loglevel warn --write src",
         "lint": "eslint src --quiet --fix --ext js,ts,tsx"

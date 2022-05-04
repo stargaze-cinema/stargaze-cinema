@@ -12,6 +12,7 @@ stages:
 variables:
     APP_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
     APP_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+    AWS_ECR_IMAGE: $AWS_ECR_REGISTRY/$AWS_ECR_REPOSITORY:latest
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ''
@@ -22,8 +23,13 @@ cache:
         - .pnpm-store
     policy: pull-push
 
-.load_images: &load_images
-    - docker load -i node.tar
+.load_image: &load_image
+    - docker load -i build.tar
+
+.require_image: &require_image
+    needs:
+        - job: Build images
+          artifacts: true
 
 before_script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
@@ -33,34 +39,65 @@ before_script:
 Build images:
     stage: build
     tags:
-        - r2
+        - docker
     script:
         - docker build -t $APP_IMAGE .
-        - docker save -o node.tar $APP_IMAGE
+        - docker save -o build.tar $APP_IMAGE
     needs: []
     artifacts:
         paths:
-            - node.tar
+            - build.tar
 
 Release images:
     stage: release
     when: on_success
     tags:
-        - r2
+        - docker
     script:
-        - *load_images
+        - *load_image
         - docker tag $APP_IMAGE $APP_RELEASE_IMAGE
         - docker push $APP_RELEASE_IMAGE
         - docker push $APP_IMAGE
-    needs:
-        - job: Build images
-          artifacts: true
+    <<: *require_image
+
+Publish images:
+    stage: deploy
+    when: on_success
+    image:
+        name: amazon/aws-cli:2.6.1
+        entrypoint: [""]
+    tags:
+        - docker
+    before_script:
+        - amazon-linux-extras install docker
+        - aws --version
+        - docker --version
+    script:
+        - *load_image
+        - aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin $AWS_ECR_REGISTRY
+        - docker tag $APP_IMAGE $AWS_ECR_IMAGE
+        - docker push $AWS_ECR_IMAGE
+    <<: *require_image
+    only:
+        - master
 
 Deploy app:
     stage: deploy
-    image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+    image:
+        name: amazon/aws-cli:2.6.1
+        entrypoint: [""]
+    services: []
+    before_script:
+        - aws --version
     script:
-        - aws s3
+        - >
+            aws ecs update-service
+            --cluster $AWS_ECS_CLUSTER
+            --service $AWS_ECS_SERVICE
+            --task-definition $AWS_ECS_TASK
+            --force-new-deployment
     when: manual
     only:
         - master
+    needs:
+        - job: Publish images
