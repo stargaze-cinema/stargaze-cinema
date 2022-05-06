@@ -1,13 +1,13 @@
-image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/docker:20.10.14
+image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/docker:20.10.15
 
 services:
-    - name: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/docker:20.10.14-dind
+    - name: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/docker:20.10.15-dind
       alias: docker
 
 stages:
     - build
     - release
-    - deploy
+    - publish
 
 variables:
     APP_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
@@ -34,14 +34,14 @@ cache:
 before_script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
     - cp .env.example .env
-    - docker info
+    - docker version
 
 Build images:
     stage: build
     tags:
         - docker
     script:
-        - docker build -t $APP_IMAGE .
+        - docker build -f Dockerfile -t $APP_IMAGE .
         - docker save -o build.tar $APP_IMAGE
     needs: []
     artifacts:
@@ -61,10 +61,10 @@ Release images:
     <<: *require_image
 
 Publish images:
-    stage: deploy
+    stage: publish
     when: on_success
     image:
-        name: amazon/aws-cli:2.6.1
+        name: amazon/aws-cli:2.6.2
         entrypoint: [""]
     tags:
         - docker
@@ -80,24 +80,3 @@ Publish images:
     <<: *require_image
     only:
         - master
-
-Deploy app:
-    stage: deploy
-    image:
-        name: amazon/aws-cli:2.6.1
-        entrypoint: [""]
-    services: []
-    before_script:
-        - aws --version
-    script:
-        - >
-            aws ecs update-service
-            --cluster $AWS_ECS_CLUSTER
-            --service $AWS_ECS_SERVICE
-            --task-definition $AWS_ECS_TASK
-            --force-new-deployment
-    when: manual
-    only:
-        - master
-    needs:
-        - job: Publish images

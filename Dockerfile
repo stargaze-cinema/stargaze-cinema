@@ -1,6 +1,4 @@
-FROM node:18.0-alpine
-
-USER root
+FROM node:18.1-alpine
 
 WORKDIR /app
 
