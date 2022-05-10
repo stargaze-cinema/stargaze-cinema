@@ -1,13 +1,11 @@
-FROM node:18.1-alpine
+FROM node:18.1-alpine as dev
 
 WORKDIR /app
-
-RUN apk -U add --no-cache git
 
 COPY package*.json pnpm*.yaml tsconfig*.json ./
 
 RUN corepack enable \
-    && corepack prepare pnpm@7.0.0 --activate \
+    && corepack prepare pnpm@7.0.1 --activate \
     && pnpm config set store-dir .pnpm-store \
     && pnpm i --frozen-lockfile \
     && pnpm rb esbuild
@@ -16,4 +14,16 @@ COPY . .
 
 EXPOSE 3000
 
-CMD [ "pnpm", "start:production" ]
+CMD [ "pnpm", "start:development" ]
+
+FROM dev as build
+
+RUN pnpm build
+
+FROM nginx:1.21.6-alpine as prod
+
+COPY --from=build /app/dist /var/www/stargazecinema.com
+
+COPY docker/default.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80

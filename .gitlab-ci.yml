@@ -1,7 +1,7 @@
-image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/docker:20.10.15
+image: $CI_GROUP_DOCKER
 
 services:
-    - name: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/docker:20.10.15-dind
+    - name: $CI_GROUP_DOCKER_DIND
       alias: docker
 
 stages:
@@ -64,7 +64,7 @@ Publish images:
     stage: publish
     when: on_success
     image:
-        name: amazon/aws-cli:2.6.2
+        name: amazon/aws-cli:2.6.3
         entrypoint: [""]
     tags:
         - docker
