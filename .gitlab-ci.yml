@@ -17,12 +17,6 @@ variables:
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ''
 
-cache:
-    key: $CI_COMMIT_REF_SLUG
-    paths:
-        - .pnpm-store
-    policy: pull-push
-
 .load_image: &load_image
     - docker load -i build.tar
 
@@ -41,7 +35,7 @@ Build images:
     tags:
         - docker
     script:
-        - docker build -f Dockerfile -t $APP_IMAGE .
+        - docker build -f docker/Dockerfile -t $APP_IMAGE .
         - docker save -o build.tar $APP_IMAGE
     needs: []
     artifacts:
@@ -64,7 +58,7 @@ Publish images:
     stage: publish
     when: on_success
     image:
-        name: amazon/aws-cli:2.6.3
+        name: amazon/aws-cli:2.6.4
         entrypoint: [""]
     tags:
         - docker
