@@ -58,7 +58,7 @@ Publish images:
     stage: publish
     when: on_success
     image:
-        name: amazon/aws-cli:2.6.4
+        name: amazon/aws-cli:2.7.0
         entrypoint: [""]
     tags:
         - docker

@@ -12,7 +12,7 @@
 
 1. You will need the Stargaze Cinema API running.
 2. Run `cp .env.example .env` in the terminal to create environment file.
-3. Run `docker build -f docker/Dockerfile -t stargaze-cinema --target=dev .` to build the application from `Dockerfile`.
+3. Run `docker build -f docker/Dockerfile -t stargaze-cinema --target=development .` to build the application from `Dockerfile`.
 4. Run `docker run -p 3000:3000`.
 5. Now you are ready to use the application:
     - Application is available at `localhost:3000`.
