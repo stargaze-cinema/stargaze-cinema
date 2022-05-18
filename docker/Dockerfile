@@ -17,7 +17,9 @@ CMD [ "pnpm", "start:development" ]
 
 FROM development as build
 
-RUN pnpm build
+ARG API_URL=http://localhost:8000/api
+RUN echo "APP_API_URL=${API_URL}" > .env \
+    && pnpm build
 
 FROM nginx:1.21.6-alpine as production
 

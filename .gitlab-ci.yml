@@ -35,7 +35,7 @@ Build images:
     tags:
         - docker
     script:
-        - docker build -f docker/Dockerfile -t $APP_IMAGE .
+        - docker build -f docker/Dockerfile -t $APP_IMAGE --build-arg API_URL=$AWS_EB_INSTANCE_URL:8000/api .
         - docker save -o build.tar $APP_IMAGE
     needs: []
     artifacts:
