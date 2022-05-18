@@ -19,7 +19,7 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setProps(props)
         setModal(
             lazy(() =>
-                import(/* @vite-ignore */ `../components/Modals/${name}`).then(module => ({
+                import(/* @vite-ignore */ `../components/Modals/${name}.tsx`).then(module => ({
                     default: module[name],
                 }))
             )
