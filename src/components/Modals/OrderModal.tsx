@@ -45,6 +45,15 @@ export const OrderModal: React.FC<Props> = ({ session, poster, onClose }) => {
     }
 
     const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+        switch (target.name) {
+            case 'number':
+            case 'cvv':
+                if (!/^\d+$/.test(target.value)) return
+                break
+            case 'date':
+                if (!/^[/\d+]*$/.test(target.value)) return
+        }
+
         setCreds({
             ...creds,
             [target.name]: target.name === 'date' ? target.value : +target.value,

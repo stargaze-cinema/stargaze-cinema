@@ -68,7 +68,7 @@ export const MoviesPage: React.FC = () => {
                         <option value="created_at">Date</option>
                         <option value="price">Price</option>
                         <option value="year">Year</option>
-                        <option value="duration">Duration</option>
+                        <option value="runtime">Runtime</option>
                         <option value="title">Alphabetical</option>
                     </select>
                     <select

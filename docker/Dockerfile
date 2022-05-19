@@ -1,11 +1,11 @@
-FROM node:18.1-alpine3.15 as development
+FROM node:18.2-alpine3.15 as development
 
 WORKDIR /app
 
 COPY package*.json pnpm*.yaml tsconfig*.json ./
 
 RUN corepack enable \
-    && corepack prepare pnpm@7.1.0 --activate \
+    && corepack prepare pnpm@7.1.2 --activate \
     && pnpm i --frozen-lockfile \
     && pnpm rb esbuild
 

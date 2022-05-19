@@ -9,7 +9,6 @@ import style from './movieSelector.module.scss'
 
 interface Props {
     movie: Movie
-    isLoading: boolean
 }
 
 interface Selector {
@@ -17,7 +16,7 @@ interface Selector {
     sessions: Session[]
 }
 
-export const MovieSelector: React.FC<Props> = ({ movie, isLoading }) => {
+export const MovieSelector: React.FC<Props> = ({ movie }) => {
     const { user } = useAuth()
     const { showModal } = useModal()
     const navigate = useNavigate()
@@ -39,15 +38,11 @@ export const MovieSelector: React.FC<Props> = ({ movie, isLoading }) => {
             : navigate({ to: '/signin' })
 
     return (
-        <>
-            {isLoading ? (
-                <div className={`${style.selectorWrapper} ${style.pulseAnimation}`} />
-            ) : movie.sessions.length === 0 ? (
-                <div className={style.selectorWrapper}>
-                    <span className={style.selectorNotFound}>No sessions available.</span>
-                </div>
+        <div className={style.selectorWrapper}>
+            {movie.sessions.length === 0 ? (
+                <span className={style.selectorNotFound}>No sessions available.</span>
             ) : (
-                <div className={style.selectorWrapper}>
+                <>
                     <h2 className={style.selectorTitle}>Available sessions</h2>
                     <div className={style.selector}>
                         <div className={style.dates}>
@@ -80,8 +75,8 @@ export const MovieSelector: React.FC<Props> = ({ movie, isLoading }) => {
                             })}
                         </div>
                     </div>
-                </div>
+                </>
             )}
-        </>
+        </div>
     )
 }
