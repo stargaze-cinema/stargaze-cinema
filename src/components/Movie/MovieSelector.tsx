@@ -22,7 +22,8 @@ export const MovieSelector: React.FC<Props> = ({ movie }) => {
     const navigate = useNavigate()
     const [selectedDate, setSelectedDate] = useState(new Date())
     const selector: Selector = useMemo(() => {
-        const sortedSessions = movie.sessions.sort((a: any, b: any) => a.begin_at - b.begin_at)
+        const availableSessions = movie.sessions.filter(item => new Date() < new Date(item.end_at))
+        const sortedSessions = availableSessions.sort((a: any, b: any) => a.begin_at - b.begin_at)
 
         return {
             dates: sortedSessions.filter((item, pos, self) =>
@@ -39,7 +40,7 @@ export const MovieSelector: React.FC<Props> = ({ movie }) => {
 
     return (
         <div className={style.selectorWrapper}>
-            {movie.sessions.length === 0 ? (
+            {selector.sessions.length === 0 ? (
                 <span className={style.selectorNotFound}>No sessions available.</span>
             ) : (
                 <>

@@ -14,10 +14,7 @@ export const Layout: React.FC = () => {
                     <Logo width={36} />
                 </Link>
                 {user ? (
-                    <>
-                        <Link to="/account">{user.name}</Link>
-                        <button onClick={signOut}>Log out</button>
-                    </>
+                    <button onClick={signOut}>Log out</button>
                 ) : (
                     <Link to="/signin">Sign in</Link>
                 )}

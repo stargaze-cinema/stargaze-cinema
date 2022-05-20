@@ -38,6 +38,7 @@ export const SignInPage: React.FC = () => {
             }) => {
                 signIn(data.user, data.token)
                 navigate({ to: '/' })
+                location.reload()
             },
         })
     }
