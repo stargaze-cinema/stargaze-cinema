@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package*.json pnpm*.yaml tsconfig*.json ./
 
 RUN corepack enable \
-    && corepack prepare pnpm@7.1.2 --activate \
+    && corepack prepare pnpm@7.1.5 --activate \
     && pnpm i --frozen-lockfile \
     && pnpm rb esbuild
 
